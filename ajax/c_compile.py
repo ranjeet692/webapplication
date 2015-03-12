@@ -13,9 +13,9 @@ def check_code(pid,assignmnt_id,fn):
 	test_case="select * from problem_code where problem_id={0}".format(str(pid))
 	cursor.execute(test_case)
 	data=cursor.fetchone()
-	sub_location='/var/www/html/submission/'+c['uid'].value+'/'+str(assignmnt_id)+'/'+str(fn)
-	output_location='/var/www/html/temp/'+c['uid'].value+'/'+str(assignmnt_id)+'/'+str(pid)
-	fi=open("temp.txt","w+")
+	sub_location='/home/ubuntu/submission/'+c['uid'].value+'/'+str(assignmnt_id)+'/'+str(fn)
+	output_location='/home/ubuntu/temp/'+c['uid'].value+'/'+str(assignmnt_id)+'/'+str(pid)
+	fi=open("home/ubuntu/temp/temp.txt","w+")
 	if os.path.exists(output_location):	
 	#	subprocess.call(['gcc',sub_location,'-o',output_location+'/'+'output'])	
 		s=[]
@@ -34,7 +34,7 @@ def check_code(pid,assignmnt_id,fn):
 		st = os.stat(output_location+'/')
 		os.chmod(output_location+'/',st.st_mode | stat.S_IWGRP | stat.S_IWOTH)
 		curr_working_path=os.getcwd()
-		rel_path='/var/www/html/temp/'+c['uid'].value+'/'+str(assignmnt_id)+'/'+str(pid)+'/'
+		rel_path='/home/ubuntu/temp/'+c['uid'].value+'/'+str(assignmnt_id)+'/'+str(pid)+'/'
 		os.chdir(rel_path)
 		tc=1
 		j=1
@@ -67,9 +67,9 @@ def p_check_code(ppid,fn):
 	test_case="select * from problem_code as pc,practise_problem as pp where pc.problem_id=pp.pid and pp.ppid='{0}'".format(str(ppid))
 	cursor.execute(test_case)
 	data=cursor.fetchone()
-	sub_location='/var/www/html/submission/'+c['uid'].value+'/p_problem/'+str(fn)
-	output_location='/var/www/html/temp/'+c['uid'].value+'/p'+str(ppid)+'/'
-	fi=open("temp.txt","w+")
+	sub_location='/home/ubuntu/submission/'+c['uid'].value+'/p_problem/'+str(fn)
+	output_location='/home/ubuntu/temp/'+c['uid'].value+'/p'+str(ppid)+'/'
+	fi=open("/home/ubuntu/temp/temp.txt","w+")
 	if os.path.exists(output_location):	
 	#	subprocess.call(['gcc',sub_location,'-o',output_location+'/'+'output'])	
 		s=[]
@@ -88,7 +88,7 @@ def p_check_code(ppid,fn):
 		st = os.stat(output_location+'/')
 		os.chmod(output_location+'/',st.st_mode | stat.S_IWGRP | stat.S_IWOTH)
 		curr_working_path=os.getcwd()
-		rel_path='/var/www/html/temp/'+c['uid'].value+'/p'+str(ppid)+'/'
+		rel_path='/home/ubuntu/temp/'+c['uid'].value+'/p'+str(ppid)+'/'
 		os.chdir(rel_path)
 		tc=1
 		j=1

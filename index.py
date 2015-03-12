@@ -48,25 +48,25 @@ if(reg==True):
 	#if user is a teacher 
 	#IF YOU ARE SEEING THIS ERROR THEN PLEASE REMOVE ALL COOKIES FOR THIS PAGE AND TRY AGAIN.
 	if(type == "teacher"):
-		sql = "SELECT course_id, name FROM courses WHERE teacher_id = %s"
-		connection.cursor.execute(sql,(str(cookie['uid'].value)))
+		sql = "SELECT course_id, name FROM courses WHERE teacher_id = '{0}'".format(str(email))
+		connection.cursor.execute(sql)
 		courses = connection.cursor.fetchall()
 		TEMPLATE_FILE = "/var/www/html/teacher_home.html" 
 		templateVars = { "title": "Course List","name" : cookie['name'].value, "courses": courses,"footer": footer.html}
 		template = templateEnv.get_template( TEMPLATE_FILE )
 		print template.render(templateVars)
 	else:	
-		course="select email,a.course_id,name from enrolled as a,courses as b where a.course_id=b.course_id and email=%s"
-		connection.cursor.execute(course,(str(email)))
+		course="select email,a.course_id,name from enrolled as a,courses as b where a.course_id=b.course_id and email='{0}'".format(str(email))
+		connection.cursor.execute(course)
 		enrolled=connection.cursor.fetchall()
 		acourse="select * from courses"
 		connection.cursor.execute(acourse)
 		all_courses=connection.cursor.fetchall()
-		p_query="select pp.ppid,pc.title,pc.difficulty from practise_problem as pp,problem_code as pc where ppid not in (select ppid from practise_submission where email_id=%s) and pp.pid=pc.problem_id"
-		s_query="select pp.ppid,pc.title,score from problem_code as pc,practise_problem as pp,practise_submission as ps where pp.pid=pc.problem_id and ps.email_id=%s and ps.ppid=pp.ppid" 
-		connection.cursor.execute(p_query,(str(email)))
+		p_query="select pp.ppid,pc.title,pc.difficulty from practise_problem as pp,problem_code as pc where ppid not in (select ppid from practise_submission where email_id='{0}') and pp.pid=pc.problem_id".format(str(email))
+		s_query="select pp.ppid,pc.title,score from problem_code as pc,practise_problem as pp,practise_submission as ps where pp.pid=pc.problem_id and ps.email_id='{0}' and ps.ppid=pp.ppid".format(str(email))
+		connection.cursor.execute(p_query)
 		p_problem=connection.cursor.fetchall()
-		connection.cursor.execute(s_query,(str(email)))
+		connection.cursor.execute(s_query)
 		s_problem=connection.cursor.fetchall()		
 		TEMPLATE_FILE = "/var/www/html/home.html" 
 		template = templateEnv.get_template( TEMPLATE_FILE )

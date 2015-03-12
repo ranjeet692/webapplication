@@ -16,7 +16,7 @@ if 'HTTP_COOKIE' in os.environ:
 	c.load(cookie_string)
 
 if ppid==None:
-	contents = open("/var/www/html/submission/"+ c['uid'].value + "/" + assignment_id + "/" + filename).read()
+	contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/" + assignment_id + "/" + filename).read()
 else:
-	contents = open("/var/www/html/submission/"+ c['uid'].value + "/p_problem" + "/" + filename).read()
+	contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/p_problem" + "/" + filename).read()
 print contents
