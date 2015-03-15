@@ -15,16 +15,15 @@ templateEnv = Environment( loader=templateLoader )
 form = cgi.FieldStorage() 
 email = form.getvalue('email')
 password  = form.getvalue('password')
-login="select * from user"
-connection.cursor.execute(login)
+login="select * from user where email_id = %s and password = %s"
+connection.cursor.execute(login,(email,password))
 data=connection.cursor.fetchall()
 reg=False
-for row in data:
-	if(row[0]==email and row[1]==password):
-			reg=True
-			name=row[3]
-			type=row[2]
-			break;	
+if(connection.cursor.rowcount == 1):
+		reg=True
+		name=data[0][3]
+		type=data[0][2]
+		
 if(reg==False):
 	print "Content-Type: text/html\n\n"
 	message="Wrong Details"
@@ -56,10 +55,10 @@ if(reg==True):
 		template = templateEnv.get_template( TEMPLATE_FILE )
 		print template.render(templateVars)
 	else:	
-		course="select email,a.course_id,name from enrolled as a,courses as b where a.course_id=b.course_id and email='{0}'".format(str(email))
+		course="select email,a.course_id,b.name, c.institute from enrolled as a,courses as b, teacher as c where a.course_id=b.course_id and b.teacher_id = c.name and email='{0}'".format(str(email))
 		connection.cursor.execute(course)
 		enrolled=connection.cursor.fetchall()
-		acourse="select * from courses"
+		acourse="select a.course_id, a.name, a.timeline, b.email_id, b.institute from courses as a, teacher as b where a.teacher_id = b.name"
 		connection.cursor.execute(acourse)
 		all_courses=connection.cursor.fetchall()
 		p_query="select pp.ppid,pc.title,pc.difficulty from practise_problem as pp,problem_code as pc where ppid not in (select ppid from practise_submission where email_id='{0}') and pp.pid=pc.problem_id".format(str(email))
@@ -67,7 +66,8 @@ if(reg==True):
 		connection.cursor.execute(p_query)
 		p_problem=connection.cursor.fetchall()
 		connection.cursor.execute(s_query)
-		s_problem=connection.cursor.fetchall()		
+		s_problem=connection.cursor.fetchall()	
+		sql = "select "	
 		TEMPLATE_FILE = "/var/www/html/home.html" 
 		template = templateEnv.get_template( TEMPLATE_FILE )
 		templateVars = { "name" : name, "enrolled":enrolled,"all_courses":all_courses, "footer": footer.html,"p_problem":p_problem,"s_problem":s_problem}
