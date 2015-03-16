@@ -9,5 +9,5 @@ problem_id= form.getvalue("pid")
 assignment_id=form.getvalue("aid")
 filename  = form.getvalue("file")
 
-contents = open("/var/www/html/submission/"+ email_id + "/" + str(assignment_id) + "/" + filename).read()
+contents = open("/home/ubuntu/submission/"+ email_id + "/" + str(assignment_id) + "/" + filename).read()
 print contents

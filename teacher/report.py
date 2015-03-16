@@ -20,7 +20,7 @@ if 'HTTP_COOKIE' in os.environ:
 templateLoader = FileSystemLoader( searchpath="/" )
 templateEnv = Environment( loader=templateLoader )
 if c['type'].value == "teacher":
-	query="select c.assignment_id,c.problem_id,d.title,a.title,startdate from assignment as a,courses as b,assignment_code as c,problem_code as d where a.course_id=b.course_id and a.type='code' and a.course_id='{0}' and c.assignment_id=a.assignment_id and c.problem_id=d.problem_id".format(str(cid))
+	query="select a.assignment_id,a.problem_id,b.title,c.title,c.startdate from plagiarism as a,problem_code as b,assignment as c where a.problem_id=b.problem_id and a.assignment_id=c.assignment_id and c.course_id='{0}'".format(str(cid))
 	cursor.execute(query)
 	d=cursor.fetchall()
 	contents='''<br>

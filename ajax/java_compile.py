@@ -16,7 +16,7 @@ def check_code(pid,assignmnt_id,fn):
 	data=cursor.fetchone()
 	sub_location='/home/ubuntu/submission/'+c['uid'].value+'/'+str(assignmnt_id)+'/'+str(fn)
 	output_location='/home/ubuntu/temp/'+c['uid'].value+'/'+str(assignmnt_id)+'/'+str(pid)
-	fi=open("home/ubuntu/temp/temp.txt","w+")
+	fi=open("/home/ubuntu/temp/temp.txt","w+")
 	if os.path.exists(output_location):
 		a=[]
 		#subprocess.call(['chmod','-r','777','/var/www/html/codemafia/temp/'])	
@@ -70,7 +70,7 @@ def p_check_code(ppid,fn):
 	data=cursor.fetchone()
 	sub_location='/home/ubuntu/submission/'+c['uid'].value+'/p_problem/'+str(fn)
 	output_location='/home/ubuntu/temp/'+c['uid'].value+'/p'+str(ppid)+'/'
-	fi=open("temp.txt","w+")
+	fi=open("/home/ubuntu/temp/temp.txt","w+")
 	if os.path.exists(output_location):
 		a=[]
 		#subprocess.call(['chmod','-r','777','/var/www/html/codemafia/temp/'])	
