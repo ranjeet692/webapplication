@@ -17,15 +17,15 @@ problem_id=data.getvalue('pid')
 query="select assignment_id,problem_id,student.email_id,file_name,rno from submission_code,student where problem_id='{0}' and assignment_id='{1}' and submission_code.email_id=student.email_id".format(str(problem_id),str(assignment_id))
 connection.cursor.execute(query)
 data=connection.cursor.fetchall()
-pld='/var/www/html/plagiarism/'+str(data[0][0])+'/'+str(data[0][1])+'/'
+pld='/home/ubuntu/plagiarism/'+str(data[0][0])+'/'+str(data[0][1])+'/'
 if not os.path.exists(pld):
 	os.makedirs(pld)
 for row in data:
-	src='/var/www/html/submission/'+str(row[2])+'/'+str(row[0])+'/'+str(row[3])		
-	dst='/var/www/html/plagiarism/'+str(row[0])+'/'+str(row[1])+'/'+str(row[4])+'.java'
+	src='/home/ubuntu/submission/'+str(row[2])+'/'+str(row[0])+'/'+str(row[3])		
+	dst='/home/ubuntu/plagiarism/'+str(row[0])+'/'+str(row[1])+'/'+str(row[4])+'.java'
 	shutil.copyfile(src,dst)
 src='/var/www/html/plagiarism/sherlock'			
-dst='/var/www/html/plagiarism/'+str(data[0][0])+'/'+str(data[0][1])+'/sherlock'
+dst='/home/ubuntu/plagiarism/'+str(data[0][0])+'/'+str(data[0][1])+'/sherlock'
 shutil.copy(src,dst)
 cwd=os.getcwd()
 os.chdir(pld)
