@@ -12,8 +12,11 @@ import footer
 data = cgi.FieldStorage()
 cid = data.getvalue("cid")
 #cid = 1
-title = "Java Programming"
-
+#title = "Java Programming"
+sql = "SELECT name FROM courses WHERE course_id = %s"
+cursor.execute(sql, str(cid))
+data = cursor.fetchone()
+title = data[0]
 if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
 	c=Cookie.SimpleCookie()

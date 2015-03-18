@@ -7,6 +7,6 @@ s=s.split('\n')
 user=s[0]
 passwd=s[1]
 db=s[2]
-db=MySQLdb.connect("localhost","root","codemafia","neoscriptdb")
+db=MySQLdb.connect("localhost",user,passwd,db)
 cursor=db.cursor()
 
