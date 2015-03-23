@@ -123,22 +123,11 @@
 		<script>
 			var email = ''
 			var editor = ace.edit("code_editor");
-			$( document ).ready(function() {	
-					editor.setTheme("http://www.neoscript.in/ace/theme/chrome");
-					editor.getSession().setMode("http://www.neoscript.in/ace/mode/java");
-					$.ajax({
-					type: 'POST',
-					url: "course/"+{{cid}}+"/timeline.txt",
-					dataType: "text",
-					success: function(response){
-						output = response;
-						$("#timeline").html(output);
-						}
-					}).done(function(data){
-						console.log(data);
-						
-				});
-			});	
+			/*$( document ).ready(function() {	
+					editor.setTheme("ace/theme/chrome");
+					editor.getSession().setMode("ace/mode/java");
+					alert("mode");
+			});	*/
 				$("#assignment_select").change(function(e){
 					//alert($("#assignment_select").val());
 					$.ajax({
@@ -149,6 +138,8 @@
 						$("#problem_select").empty();
 						$("#problem_select").append("<option value='-1'>Select a problem</option>");
 						$("#problem_select").append(response);
+						editor.setTheme("ace/theme/chrome");
+						editor.getSession().setMode("ace/mode/java");
 						}
 					}).done(function(data){
 						console.log(data);

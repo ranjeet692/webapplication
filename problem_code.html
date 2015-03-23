@@ -9,7 +9,7 @@
 		<link href="http://www.neoscript.in/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<style type="text/css" media="screen">
 			#code_editor{
-				min-height:300px;
+				min-height:500px;
 			}
 		</style>
 	</head>
@@ -62,35 +62,83 @@
 					<p>{{ description }}</p>
 				</div>
 			</div>
-			<form enctype="multipart/form-data" action="submission_code.py" method="post" id="submitform">
+			<!--<form enctype="multipart/form-data" action="submission_code.py" method="post" id="submitform">
 			<div class="panel panel-default">
 				<div class="panel-heading">Solution</div>
 				<div class="panel-body">
-					<input type="file" name="file" id="file"/>
-					<select name="language" id="language">
-						<option value="java">Java</option>
-						<option value="c">C</option>
-						
-					</select>	
-					<input type="submit" name="submit" value="Submit"/>
+					<div class="row">
+						<div class="col-sm-3">
+							<label class="btn btn-default" for="file">
+								<input type="file" name="file" id="file" />
+							</label>	
+						</div>
+						<div class="col-sm-2">	
+							<select name="language" id="language" class="form-control input-sm">
+								<option value="java">Java</option>
+								<option value="c">C</option>
+							</select>	
+						</div>
+						<div class="col-sm-2">	
+							<input type="submit" name="submit" value="Submit"class="btn btn-success btn-block"/>
+						</div>	
 				</div>
 			</div>
-			</form>
-			<center><p id="loading"><img src="loading_bar.gif" width="150" height="25"/></p></center>
+			</form>-->
+			
 			<div class="alert alert-danger" role="alert" id="alert">
   						<strong>Error occured while processing. please try again.</strong>
 			</div>
+			<input type="hidden" name="filename" id="filename" value=""/>
+			<!--<div  style="position: fixed;    width: 100%;    height: 100%;    left: 0;    top: 0;    background:#eee;    z-index: 10;">-->
 			<pre id="code_editor"></pre>
-			<div class="panel panel-default" id="testcase">
- 				 <!-- Default panel contents -->
-  				
+			<div class="well">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="form-group has-success has-feedback">
+							<select id="language_save" class="form-control input-sm">
+								<option value="java">Java</option>
+								<option value="c">C</option>
+							</select>
+						</div>	
+					</div>
+					<div id = "java_c" class="col-sm-3">
+						<div class="form-group has-success has-feedback">
+							<div class="input-group">
+								<input type="text" class="form-control" id="java_class" placeholder="Java main() class name">
+								<span class="input-group-addon"><a id="popover"  rel="popover" data-content="">?</a></span>
+							</div>		
+						</div>	
+					</div>
+					<div class="col-sm-2">
+						<button id="save" type="button" class="btn btn-success btn-block">save</button>
+					</div>
+					<div class="col-sm-2">
+						<button id="compile" type="button" class="btn btn-success btn-block">compile</button>
+					</div>
+					
+					<div class="col-sm-2">
+						<button id="submit_b" type="button" class="btn btn-success btn-block">submit</button>
+					</div>
+				</div>					
 			</div>
-			<div class="panel panel-default" id="result"> 
- 				 <!-- Default panel contents -->
-  				<div class="panel-heading">Result</div>
-				<div class="panel-body">
+			<!--</div>-->
+			<!--Input/output window-->
+			<div class="row">
+				<div class="col-md-5">
+					<textarea class="form-control" name="cinput" id="cinput" rows="3" placeholder="Custom Input"></textarea>
+					<br/>
+					<button id="run" type="button" class="btn btn-success btn-block">run</button>
 				</div>
-			</div>		
+				<div class="col-md-7">
+					<center><p id="loading"><img src="loading_bar.gif" width="150" height="25"/></p></center>
+					<div class="panel panel-default" id="testcase">
+ 				 		<!-- Default panel contents -->
+  				
+					</div>
+				</div>
+			</div>
+			<!--End of Input/Output Window-->
+				
 		</div>
 		<!-- container -->
 		<footer> {{ footer }}</footer>
@@ -106,12 +154,141 @@
 					$("#testcase").hide();
 					$("#result").hide();
 					$("#alert").hide();
-					$("#code_editor").hide();	
-					editor.setTheme("http://www.neoscript.in/ace/theme/chrome");
-					editor.getSession().setMode("http://www.neoscript.in/ace/mode/java");
+					//$("#code_editor").hide();	
+					editor.setTheme("ace/theme/chrome");
+					editor.getSession().setMode("ace/mode/java");
+					$.ajax({
+ 						url: 'ajax/saved_file.py', 
+ 						type: 'POST',
+ 						data:{aid: {{aid}}, pid : {{pid}}, operation: 'code' },
+ 						success: function(response)
+ 						{
+ 							editor.getSession().setValue(response);
+							window.scrollTo(0, 600);
+ 						},
+ 						error: function(response)
+ 						{
+ 							alert('error while loading code..');
+ 						}
+ 					});
+ 					$.ajax({
+ 						url: 'ajax/saved_file.py', 
+ 						type: 'POST',
+ 						data:{aid: {{aid}}, pid : {{pid}}, operation: 'file' },
+ 						success: function(response)
+ 						{
+ 							document.getElementById('filename').value = response.trim();
+ 						},
+ 						error: function(response)
+ 						{
+ 							alert('error while loading code..');
+ 						}
+ 					});		
+ 					
+ 						var image = '<img class="img-responsive" src="main_c.png"">';
+						$('#popover').popover({placement: 'bottom', content: image, html: true});
 			});
-				
- 
+			$("#language_save").change(function(e)
+			{
+				if($("#language_save").val()=="java")
+				{
+					$("#java_c").show();
+				}
+				else
+				{
+					$("#java_c").hide();
+				}
+			});
+ 			function code_submit(t)
+ 			{
+				var f = document.getElementById("filename").value;
+ 				var c = editor.getSession().getValue();
+ 				var jf = document.getElementById("java_class").value;
+ 				var input = document.getElementById("cinput").value;
+				//alert(code);
+ 				$("#loading").show();	
+ 				$.ajax({
+ 					url: 'ajax/submission_save.py?pid='+{{pid}}+'&aid='+{{aid}}+'&l='+$("#language_save").val(), 
+ 					type: 'POST',
+ 					data:{content: c, action: t, filename: f, jfile: jf, cinput: input},
+ 					success: function(response)
+ 					{
+ 						
+ 						$("#testcase").html(response);
+ 						$("#loading").hide();
+						$("#testcase").show();
+ 					},
+ 					error: function(response)
+ 					{
+ 						alert('error while saving.');
+ 					}
+ 				});		
+ 			}
+ 			
+ 			$("#save").click(function(e) {
+ 				if(editor.getSession().getValue()=="")
+ 				{
+ 					alert('first write code');
+ 					document.getElementById('code_editor').focus()
+ 				}
+ 				else if($("#language_save").val()=="java" && $("#java_class").val() == "" )
+				{
+						alert("fill java main method class name");
+						$("#java_class").focus();
+				}
+				else	
+ 					code_submit("save");
+ 			});
+ 			
+ 			$("#compile").click(function(e) {
+ 				if(editor.getSession().getValue()=="")
+ 				{
+ 					alert('first write code');
+ 					document.getElementById('code_editor').focus()
+ 				}
+ 				else if($("#language_save").val()=="java" && $("#java_class").val() == "" )
+				{
+						alert("fill java main method class name");
+						$("#java_class").focus();
+				}
+ 				else	
+ 					code_submit("compile");
+ 			});
+ 			
+ 			$("#run").click(function(e) {
+ 				
+ 				if(editor.getSession().getValue()=="")
+ 				{
+ 					alert('first write code');
+ 					document.getElementById('code_editor').focus()
+ 				}	
+ 				else if(document.getElementById('cinput').value=="")
+ 				{
+ 					alert('give custom inputs.');
+ 					document.getElementById('cinput').focus()
+ 				}
+ 				else if($("#language_save").val()=="java" && $("#java_class").val() == "" )
+				{
+					alert("fill java main method class name");
+					$("#java_class").focus();
+				}
+ 				else	
+ 					code_submit("custom_execute");
+ 						
+ 				//
+ 			});
+ 			
+ 			$("#submit_b").click(function(e){
+ 				if($("#language_save").val()=="java" && $("#java_class").val() == "" )
+				{
+					alert("fill java main method class name");
+					$("#java_class").focus();
+				}
+				else
+ 					code_submit("test_case");
+ 			});
+ 			
+ 			
 			// Catch the form submit and upload the files
 			$("#submitform").submit(function(e) {
 				
@@ -137,9 +314,11 @@
 							url: 'ajax/code_editor.py?pid='+{{pid}}+'&aid='+{{aid}}+'&file='+$("#file").val(),
 							type:'GET',
 							success:function(response){
+								document.getElementById('filename').value = document.getElementById('file').value
 								$("#code_editor").show();
 								editor.getSession().setValue(response);
-								 window.scrollTo(0, 800);
+								 window.scrollTo(0, 1300);
+								 
 							},
 							error:function(response){
 								
