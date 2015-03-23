@@ -51,7 +51,7 @@ print '''
                     <ul class="dropdown-menu dropdown-user">
                         
                         <li class="divider"></li>
-                        <li><a href="./logout.py"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="../logout.py"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->

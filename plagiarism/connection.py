@@ -1,5 +1,12 @@
 #this file just opens a connection with the database
 import MySQLdb
-db=MySQLdb.connect("localhost","root","MySql56@Sun","neoscriptdb")
+f=open('/home/ubuntu/passwd.txt','r')
+s=f.read()
+f.close()
+s=s.split('\n')
+user=s[0]
+passwd=s[1]
+db=s[2]
+db=MySQLdb.connect("localhost",user,passwd,db)
 cursor=db.cursor()
 

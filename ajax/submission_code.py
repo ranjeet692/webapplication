@@ -36,13 +36,13 @@ if fileitem.filename:
 	   
     #strip leading path from file name to avoid directory traversal attacks
 	if ppid==None:	
-		if not os.path.exists("/var/www/html/submission/"+c['uid'].value+"/"+assignment_id+"/"):
-			os.makedirs("/var/www/html/submission/"+c['uid'].value+"/"+assignment_id+"/")
-			os.chmod("/var/www/html/submission/"+c['uid'].value+"/"+assignment_id+"/", 0755)
+		if not os.path.exists("/home/ubuntu/submission/"+c['uid'].value+"/"+assignment_id+"/"):
+			os.makedirs("/home/ubuntu/submission/"+c['uid'].value+"/"+assignment_id+"/")
+			os.chmod("/home/ubuntu/submission/"+c['uid'].value+"/"+assignment_id+"/", 0755)
 		#os.chmod(fileitem.filename, 0o755)
 		fn = os.path.basename(fileitem.filename)
-  		open('/var/www/html/submission/'+c["uid"].value+'/'+assignment_id+'/'+fn, 'wb').write(fileitem.file.read())
-  		dest_dir = '/var/www/html/submission/'+c["uid"].value+'/'+assignment_id+'/'
+  		open('/home/ubuntu/submission/'+c["uid"].value+'/'+assignment_id+'/'+fn, 'wb').write(fileitem.file.read())
+  		dest_dir = '/home/ubuntu/submission/'+c["uid"].value+'/'+assignment_id+'/'
   		#os.rename(dest_dir + fn, dest_dir + problem_id+'.'+language)	
 		#sql = "INSERT INTO submission_code(assignment_id,problem_id, email_id) VALUES('{0}','{1}','{2}')".format(str(assignment_id),str(problem_id), str(student_id))
 		sql = "select * from submission_code where assignment_id = '{0}' and problem_id = '{1}' and email_id = '{2}'".format(str(assignment_id),str(problem_id), str(student_id))
@@ -116,13 +116,13 @@ if fileitem.filename:
 		else:
 			print st
 	else:
-		if not os.path.exists("/var/www/html/submission/"+c['uid'].value+"/p_problem/"):
-			os.makedirs("/var/www/html/submission/"+c['uid'].value+"/p_problem/")
-			os.chmod("/var/www/html/submission/"+c['uid'].value+"/p_problem/", 0755)
+		if not os.path.exists("/home/ubuntu/submission/"+c['uid'].value+"/p_problem/"):
+			os.makedirs("/home/ubuntu/submission/"+c['uid'].value+"/p_problem/")
+			os.chmod("/home/ubuntu/submission/"+c['uid'].value+"/p_problem/", 0755)
 		#os.chmod(fileitem.filename, 0o755)
 		fn = os.path.basename(fileitem.filename)
-  		open('/var/www/html/submission/'+c["uid"].value+'/p_problem/'+fn, 'wb').write(fileitem.file.read())
-  		dest_dir = '/var/www/html/submission/'+c["uid"].value+'/p_problem/'
+  		open('/home/ubuntu/submission/'+c["uid"].value+'/p_problem/'+fn, 'wb').write(fileitem.file.read())
+  		dest_dir = '/home/ubuntu/submission/'+c["uid"].value+'/p_problem/'
   		#os.rename(dest_dir + fn, dest_dir + problem_id+'.'+language)	
 		#sql = "INSERT INTO submission_code(assignment_id,problem_id, email_id) VALUES('{0}','{1}','{2}')".format(str(assignment_id),str(problem_id), str(student_id))
 		sql = "select * from practise_submission where ppid = '{0}' and email_id = '{1}'".format(str(ppid),str(student_id))

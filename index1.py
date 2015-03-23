@@ -23,10 +23,10 @@ if 'HTTP_COOKIE' in os.environ:
 		template = templateEnv.get_template( TEMPLATE_FILE )
 		print template.render(templateVars)
 	else:
-		course="select email,a.course_id,name from enrolled as a,courses as b where a.course_id=b.course_id and email=('{0}')".format(str(c['uid'].value))
+		course="select email,a.course_id,b.name, c.institute from enrolled as a,courses as b, teacher as c where a.course_id=b.course_id and b.teacher_id = c.name and email=('{0}')".format(str(c['uid'].value))
 		connection.cursor.execute(course)
 		enrolled=connection.cursor.fetchall()
-		acourse="select * from courses"
+		acourse="select a.course_id, a.name, a.timeline, b.email_id, b.institute from courses as a, teacher as b where a.teacher_id = b.name"
 		connection.cursor.execute(acourse)
 		all_courses=connection.cursor.fetchall()	
 		p_query="select pp.ppid,pc.title,pc.difficulty from practise_problem as pp,problem_code as pc where ppid not in (select ppid from practise_submission where email_id='{0}') and pp.pid=pc.problem_id".format(str(c['uid'].value))
