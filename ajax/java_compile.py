@@ -73,7 +73,7 @@ def p_check_code(ppid,fn):
 	fi=open("/home/ubuntu/temp/temp.txt","w+")
 	if os.path.exists(output_location):
 		a=[]
-		#subprocess.call(['chmod','-r','777','/var/www/html/codemafia/temp/'])	
+		subprocess.call(['chmod','777','-R','/var/www/html/codemafia/temp/'])	
 	else:	
 		os.makedirs(output_location, 0o777)
 	try:

@@ -1,7 +1,8 @@
 import filecmp,subprocess,os,sys
 from connection import cursor,db
 from cookie import c,load_cookie
-import stat,timeit
+import stat
+import timeit
 re=[]
 sti=""
 tm=1
@@ -19,11 +20,8 @@ def check_code(pid,assignmnt_id,fn):
 	if os.path.exists(output_location):	
 	#	subprocess.call(['gcc',sub_location,'-o',output_location+'/'+'output'])	
 		s=[]
-	else:	
-		#subprocess.call(['mkdir','-m' ,'777','-p',output_location])
+	else:
 		os.makedirs(output_location, 0o777)
-		#os.chmod(output_location, 0o777)
-	#	subprocess.call(['gcc',sub_location,'-o',output_location+'/'+'output'])
 	try:
 		ret=subprocess.call(['gcc',sub_location,'-o',output_location+'/'+'output'],stderr=fi)		
 	except subprocess.CalledProcessError:
@@ -99,7 +97,7 @@ def p_check_code(ppid,fn):
 			os.chmod(output_location+'/'+str(j)+'.txt',st.st_mode | stat.S_IWGRP | stat.S_IWOTH)
 			fdw.close()			
 			setup='''import subprocess,os;fdr=open("'''+data[i]+'''","r");fdw=open("'''+ofname+'''","w")'''
-			stmt='''subprocess.call(['./output'],stdin=fdr,stdout=fdw)'''				
+			stmt='''subprocess.call(['timeout','5s','./output'],stdin=fdr,stdout=fdw)'''				
 			t.append(timeit.timeit(stmt,setup,number=1))			
 			#fdr=open(data[i],"r")
 			#subprocess.call(['./output'],stdin=fdr,stdout=fdw)	
