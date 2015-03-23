@@ -33,7 +33,8 @@ fileitem = form['file']
 
 # Test if the file was uploaded
 if fileitem.filename:	
-	   
+	
+	fileitem.filename.replace('C:\\fakepath\\','')
     #strip leading path from file name to avoid directory traversal attacks
 	if ppid==None:	
 		if not os.path.exists("/home/ubuntu/submission/"+c['uid'].value+"/"+assignment_id+"/"):

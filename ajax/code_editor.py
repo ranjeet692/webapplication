@@ -8,8 +8,8 @@ ppid=form.getvalue("ppid")
 if ppid==None:
 	problem_id= form.getvalue("pid")
 	assignment_id=form.getvalue("aid")
-filename  = form.getvalue("file")
-print filename
+filename  = form.getvalue("file").replace('C:\\fakepath\\','')
+
 if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
 	c=Cookie.SimpleCookie()
