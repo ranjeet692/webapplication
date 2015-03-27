@@ -1,7 +1,6 @@
-!/usr/bin/python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-print "Cache-Control:no-store, no-cache, must-revalidate"
 print "Content-Type: text/html\n\n"
 
 from jinja2 import Template, Environment, FileSystemLoader
@@ -10,8 +9,12 @@ import cgi, cgitb,Cookie,os
 import footer
 data = cgi.FieldStorage()
 cid = data.getvalue("cid")
-title = "NeoScript | Report"
-
+#cid = 1
+#title = "Java Programming"
+sql = "SELECT name FROM courses WHERE course_id = %s"
+cursor.execute(sql, str(cid))
+data = cursor.fetchone()
+title = data[0]
 if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
 	c=Cookie.SimpleCookie()
@@ -19,13 +22,12 @@ if 'HTTP_COOKIE' in os.environ:
 
 templateLoader = FileSystemLoader( searchpath="/" )
 templateEnv = Environment( loader=templateLoader )
-if c['type'].value == "teacher":
-	contents = open("../course/"+ str(cid) + "/notification.txt").read()
-	TEMPLATE_FILE = "/var/www/html/teacher/notice.html"
+if c['type'].value == "hod":
+	TEMPLATE_FILE = "/var/www/html/hod/home.html"
+	query="select name,rno,student.email_id from student,enrolled where student.email_id=enrolled.email and course_id='{0}' order by rno".format(str(cid))
+	cursor.execute(query)
+	data=cursor.fetchall()
 	template = templateEnv.get_template( TEMPLATE_FILE )
-	templateVars = { "title" : title,  "cid":cid,"name":c['name'].value,"content":contents ,"footer": footer.html }
+	templateVars = { "title" : title, "cid":cid,"name":c['name'].value,"footer": footer.html ,"data":data }
 	print template.render( templateVars )
-else:
-	TEMPLATE_FILE = "/var/www/html/redirect.html"
-	template = templateEnv.get_template( TEMPLATE_FILE )
-	print template.render(  )
+

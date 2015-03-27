@@ -54,11 +54,11 @@ if(reg==True):
 		templateVars = { "title": "Course List","name" : cookie['name'].value, "courses": courses,"footer": footer.html}
 		template = templateEnv.get_template( TEMPLATE_FILE )
 		print template.render(templateVars)
-	else:	
-		course="select email,a.course_id,b.name, c.institute from enrolled as a,courses as b, teacher as c where a.course_id=b.course_id and b.teacher_id = c.name and email='{0}'".format(str(email))
+	elif(type == "student"):	
+		course="select email,a.course_id,b.name, c.institute from enrolled as a,courses as b, teacher as c where a.course_id=b.course_id and b.teacher_id = c.email_id and email='{0}'".format(str(email))
 		connection.cursor.execute(course)
 		enrolled=connection.cursor.fetchall()
-		acourse="select a.course_id, a.name, a.timeline, b.email_id, b.institute from courses as a, teacher as b where a.teacher_id = b.name"
+		acourse="select a.course_id, a.name, a.timeline, b.name, b.institute from courses as a, teacher as b where a.teacher_id = b.email_id"
 		connection.cursor.execute(acourse)
 		all_courses=connection.cursor.fetchall()
 		p_query="select pp.ppid,pc.title,pc.difficulty from practise_problem as pp,problem_code as pc where ppid not in (select ppid from practise_submission where email_id='{0}') and pp.pid=pc.problem_id".format(str(email))
@@ -66,11 +66,17 @@ if(reg==True):
 		connection.cursor.execute(p_query)
 		p_problem=connection.cursor.fetchall()
 		connection.cursor.execute(s_query)
-		s_problem=connection.cursor.fetchall()	
-		sql = "select "	
+		s_problem=connection.cursor.fetchall()		
 		TEMPLATE_FILE = "/var/www/html/home.html" 
 		template = templateEnv.get_template( TEMPLATE_FILE )
 		templateVars = { "name" : name, "enrolled":enrolled,"all_courses":all_courses, "footer": footer.html,"p_problem":p_problem,"s_problem":s_problem}
 		print template.render( templateVars )
-
+	else:
+		sql= "select a.course_id, a.name, a.teacher_id,institute from courses as a,teacher as b where a.teacher_id=b.email_id and institute=(select institute from hod where email_id='{0}')".format(str(email))
+                connection.cursor.execute(sql)
+		courses = connection.cursor.fetchall()
+		TEMPLATE_FILE = "/var/www/html/hod_home.html" 
+		templateVars = { "title": "Course List","name" : cookie['name'].value, "courses": courses,"footer": footer.html}
+		template = templateEnv.get_template( TEMPLATE_FILE )
+		print template.render(templateVars)
 
