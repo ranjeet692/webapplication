@@ -32,7 +32,7 @@ if c['type'].value == "teacher":
   				<table class="table">
   			 <tr><th>Assignment Title</th><th>Problem Title</th><th>Date</th><th>View Report</th></tr>'''
   	for row in d:
-  		contents=contents+'''<tr><td>'''+str(row[3])+'''</td><td><a href="http://www.neoscript.in/plagiarism/3/2/2.txt">'''+str(row[2])+'''</td><td>'''+str(row[4])+'''</a></td><td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-aid="'''+str(row[0])+'''" data-pid="'''+str(row[1])+'''">View Report</button></td></tr>'''
+  		contents=contents+'''<tr><td>'''+str(row[3])+'''</td><td>'''+str(row[2])+'''</td><td>'''+str(row[4])+'''</td><td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-aid="'''+str(row[0])+'''" data-pid="'''+str(row[1])+'''">View Report</button></td></tr>'''
   	contents=contents+'''</table>
 			</div>
 			</div>'''
