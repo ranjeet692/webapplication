@@ -1,0 +1,118 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<title>Report | NeoScript</title>
+		<meta charset="utf-8"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="Description" content="Reports Page">
+		<!-- Bootstrap Core CSS -->
+    	<link href="http://www.neoscript.in/teacher/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+			
+    	<!-- MetisMenu CSS -->
+    	<link href="http://www.neoscript.in/teacher/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+    	<!-- Timeline CSS -->
+    	<link href="http://www.neoscript.in/teacher/dist/css/timeline.css" rel="stylesheet">
+
+    	<!-- Custom CSS -->	
+    	<link href="http://www.neoscript.in/teacher/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    	<!-- Morris Charts CSS -->
+    	<link href="http://www.neoscript.in/teacher/bower_components/morrisjs/morris.css" rel="stylesheet">
+
+    	<!-- Custom Fonts -->
+    	<link href="http://www.neoscript.in/teacher/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<script src="http://www.neoscript.in/teacher/bower_components/jquery/dist/jquery.min.js"></script>
+    	<script>
+    			$.ajax({
+							type: "POST",
+							url: "header.py?cid={{cid}}",
+							success: function(response)
+							{
+								$("#header").html(response);
+								
+							},
+							error: function(response){
+								//alert(response);
+						}
+					});
+    	</script>
+    	<style type="text/css" media="screen">
+			#code_editor{height:600px;}
+		</style>
+	</head>
+	<body>
+		<!-- wrapper -->
+		<div id="wrapper">
+			<!--navbar-->
+			<p id="header"></p>
+			<!--navbar end-->
+			<!--page wrapper-->
+			<div id="page-wrapper">
+				<div class="row">
+                	<div class="col-lg-12">
+                	    <h1 class="page-header">Report</h1>
+                	</div>
+                	<!-- /.col-lg-12 -->
+            	</div>
+			{{content}}
+			</div>
+			<!-- modal-->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+	<div id="description"></div>        
+
+    </div>
+  </div>
+</div>
+		<!--./modal-->
+			<!--end page-wrapper -->
+			<footer>
+			{{ footer }}
+			</footer>
+		</div>
+		<!-- end wrapper -->
+		  <!-- Bootstrap Core JavaScript -->
+    	<script src="http://www.neoscript.in/teacher/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    	<!-- Metis Menu Plugin JavaScript -->
+    	<script src="http://www.neoscript.in/teacher/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    	<!-- Morris Charts JavaScript -->	
+    	<script src="http://www.neoscript.in/teacher/bower_components/raphael/raphael-min.js"></script>
+    	<script src="http://www.neoscript.in/teacher/bower_components/morrisjs/morris.min.js"></script>
+    	<script src="http://www.neoscript.in/teacher/js/morris-data.js"></script>
+
+	    <!-- Custom Theme JavaScript -->	
+    	<script src="http://www.neoscript.in/teacher/dist/js/sb-admin-2.js"></script>
+    	<script>
+	
+	$('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var aid = button.data('aid')
+  var pid = button.data('pid') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  $.ajax({
+					type: 'POST',
+					url: "../ajax/show_report.py",
+					data:( {pid:pid,aid:aid} ),
+					dataType: "text",
+					success: function(response){
+						output = response;
+						$("#description").html(output);
+						}
+					}).done(function(data){
+						console.log(data);
+						
+				});
+
+  //var modal = $(this)
+  //modal.find('.modal-title').text('New message to ' + recipient)
+  //modal.find('.modal-body input').val(recipient)
+})
+
+</script>
+	</body>
+</html>			

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Editor | NeoScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <meta name="Description" content="editor" />
+ 
+    <link href="http://www.neoscript.in/external/google-code-prettify/prettify.css" rel="stylesheet">
+    	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script src="http://www.neoscript.in/external/jquery.hotkeys.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    
+		<link href="http://www.neoscript.in/index.css" rel="stylesheet">
+		<script type="text/javascript" src="tinymce/tinymce.min.js"></script>
+	<script type="text/javascript">
+		tinymce.init({
+    			selector: "textarea.editme",
+			width:800,
+			height:300
+ 			});
+	</script>
+	</head>
+	<body>
+		<textarea class="editme" id="editor" value={{content}}></textarea>
+		<button id="save">Save</button><span id="msg" class="badge"></span>
+		<script>
+			var filename = '{{file}}';
+			//alert(filename);
+			$("#save").click(function(e){
+				alert(tinyMCE.activeEditor.getContent());
+				$.ajax({
+					type: 'POST',
+					url: "ajax/save_content.py?cid="+{{cid}}+"&file="+filename+"&content="+(tinyMCE.activeEditor.getContent()).toString(),
+					dataType: "text",
+					success: function(response){
+							output = response;
+							$("#msg").html(output);
+							}
+					}).done(function(data){
+					console.log(data);		
+					});
+				});
+		</script>
+	<body>
+</html> 
