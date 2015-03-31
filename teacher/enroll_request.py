@@ -10,7 +10,7 @@ import cgi, cgitb,Cookie,os
 import footer
 data = cgi.FieldStorage()
 cid = data.getvalue("cid")
-title = "Enrollment"
+title = "NeoScript | Report"
 var = ''
 
 if 'HTTP_COOKIE' in os.environ:

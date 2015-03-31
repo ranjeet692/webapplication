@@ -1,15 +1,46 @@
-{% extends "/var/www/html/teacher/base.html" %}
-	{% block title %}{{ title }} | NeoScript {%endblock%}
-	{% block head %}
-		{{ super() }}
-		<meta http-equiv="Cache-Control" Content="no-cache, no-store, must-revalidate ,max-age=0,s-maxage=0, proxy revalidate">
-		<meta http-equiv ="Pragma" Content="no-cache">
-		<meta http-equiv ="Expires" Content="0">	
-		<style type="text/css" media="screen">
+<!DOCTYPE>
+<html>
+	<head>
+		<title>NeoScript | Submission </title>
+		<meta charset="utf-8"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Bootstrap Core CSS -->
+    	<link href="http://www.neoscript.in/teacher/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+			
+    	<!-- MetisMenu CSS -->
+    	<link href="http://www.neoscript.in/teacher/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+    	<!-- Timeline CSS -->
+    	<link href="http://www.neoscript.in/teacher/dist/css/timeline.css" rel="stylesheet">
+
+    	<!-- Custom CSS -->	
+    	<link href="http://www.neoscript.in/teacher/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    	<!-- Morris Charts CSS -->
+    	<link href="http://www.neoscript.in/teacher/bower_components/morrisjs/morris.css" rel="stylesheet">
+
+    	<!-- Custom Fonts -->
+    	<link href="http://www.neoscript.in/teacher/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<script src="http://www.neoscript.in/teacher/bower_components/jquery/dist/jquery.min.js"></script>
+    	<script>
+    			$.ajax({
+							type: "POST",
+							url: "header.py?cid={{cid}}",
+							success: function(response)
+							{
+								$("#header").html(response);
+								
+							},
+							error: function(response){
+								//alert(response);
+						}
+					});
+    	</script>
+    	<style type="text/css" media="screen">
 			#code_editor{height:600px;}
 		</style>
-	{% endblock %}
-	{% block content %}
+	</head>
+	<body>
 		<!-- wrapper -->
 		<div id="wrapper">
 			<!--navbar-->
@@ -74,7 +105,20 @@
         	
         </div>
         <!--wrapper-->
-        {{ super() }}
+         <!-- Bootstrap Core JavaScript -->
+    	<script src="http://www.neoscript.in/teacher/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    	<!-- Metis Menu Plugin JavaScript -->
+    	<script src="http://www.neoscript.in/teacher/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    	<!-- Morris Charts JavaScript -->	
+    	<script src="http://www.neoscript.in/teacher/bower_components/raphael/raphael-min.js"></script>
+    	<script src="http://www.neoscript.in/teacher/bower_components/morrisjs/morris.min.js"></script>
+    	<script src="http://www.neoscript.in/teacher/js/morris-data.js"></script>
+
+	    <!-- Custom Theme JavaScript -->	
+    	<script src="http://www.neoscript.in/teacher/dist/js/sb-admin-2.js"></script>
+    	<!-- AJAX code-->
 		<script src="http://www.neoscript.in/ace-builds-master/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			var email = ''
@@ -153,6 +197,6 @@
 					return false; // avoid to execute the actual submit of the form.
 			});
 		</script>
-	
-	
-{% endblock %}
+	</body>
+</html>	        	
+            
