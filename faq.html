@@ -1,36 +1,65 @@
-{% extends "/var/www/html/base.html" %}
-	{% block title %}FAQ | NeoScript{%endblock%}
-	{% block head %}
-		{{ super() }}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	    <meta charset="utf-8">
 	    <meta http-equiv="Cache-Control" Content="no-cache, no-store, must-revalidate ,max-age=0,s-maxage=0, proxy revalidate">
 		<meta http-equiv ="Pragma" Content="no-cache">
 		<meta http-equiv ="Expires" Content="0">
-    	<meta name="viewport" content="width=device-width, initial-scale=1">
-   		<meta name="Description" content="Frequently Asked Questions">
-	{% endblock %}
-	{% if name %}
-	   	{% include '/var/www/html/header_user.html' %}
-	{% else %}
-	    {% include '/var/www/html/header_guest.html' %}
-	{% endif %}	
- 	{% block content %}
-		<div class="container">
-			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  				<div class="panel panel-default">
-    				<div class="panel-heading" role="tab" id="headingOne">
-      					<h4 class="panel-title">
-        					<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						          Que 1 :: What kind of environment is Provided here at NeoScript, how is it different from running programs on terminal?
-        					</a>
-      					</h4>
-    				</div>
-    				<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-      					<div class="panel-body">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="Description" content="Frequently Asked Questions">
+	 <title>FAQ's</title>
+    <link href="http://www.neoscript.in/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://www.neoscript.in/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+ 	  <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="./">&lt;NeoScript/&gt;</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index1.py">Home</a> <li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{name}}<b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="width:30%;">
+                        <li class="divider"></li>    
+			<li>
+						<a href="logout.py" ><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            </li>
+                       </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+	<div class="container">
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Que 1 :: What kind of environment is Provided here at NeoScript, how is it different from running programs on terminal?
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
        No it is not different from executing on terminal. But just make sure your program don't print unwanted statements like "Enter a string" or "output of this program is" etc. Just follow the Input Output Specification given that is enough.    
-				      </div>
-			    </div>
-		  </div>
-  		<div class="panel panel-default">
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingTwo">
       <h4 class="panel-title">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -75,6 +104,9 @@
 </div>
 	</div>
 	<footer>{{ footer }}</footer>
-    {{ super() }}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://www.neoscript.in/js/bootstrap.min.js"></script>
 	
-{% endblock %}
+</body>
+</html>
