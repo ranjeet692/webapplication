@@ -7,6 +7,7 @@ print "Content-Type: text/html\n\n"
 cgitb.enable()
 templateLoader = FileSystemLoader( searchpath="/" )
 templateEnv = Environment( loader=templateLoader )
+title = 'login'
 if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
 	c=Cookie.SimpleCookie()
@@ -50,6 +51,6 @@ if 'HTTP_COOKIE' in os.environ:
 
 else:
 	TEMPLATE_FILE = "/var/www/html/default.html"
-	templateVars = { "footer": footer.html}
+	templateVars = { "footer": footer.html, "title_log":title}
 	template = templateEnv.get_template( TEMPLATE_FILE )
 	print template.render(templateVars)
