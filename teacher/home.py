@@ -6,6 +6,7 @@ print "Content-Type: text/html\n\n"
 from jinja2 import Template, Environment, FileSystemLoader
 from connection import cursor, db
 import cgi, cgitb,Cookie,os
+
 import footer
 
 data = cgi.FieldStorage()
@@ -27,6 +28,6 @@ templateEnv = Environment( loader=templateLoader )
 if c['type'].value == "teacher":
 	TEMPLATE_FILE = "/var/www/html/teacher/home.html"
 	template = templateEnv.get_template( TEMPLATE_FILE )
-	templateVars = { "title" : title, "cid":cid,"name":c['name'].value}
+	templateVars = { "title" : title, "cid":cid,"name":c['name'].value,"footer": footer.html }
 	print template.render( templateVars )
 

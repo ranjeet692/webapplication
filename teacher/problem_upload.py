@@ -12,7 +12,7 @@ import footer
 data = cgi.FieldStorage()
 cid = data.getvalue("cid")
 #cid = 1
-title = "Problem Upload"
+title = "Java Programming"
 
 if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
