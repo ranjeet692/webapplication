@@ -19,8 +19,8 @@ def sendemail(to, subject, message ):
 		smtpserver.sendmail(user,to,msg)
 		smtpserver.close()	
 	except:
-			print "Unexpected error:", sys.exc_info()[0]
-			raise
-		else:
-			return "ok"	
+		print "Unexpected error:", sys.exc_info()[0]
+		raise
+	else:
+		return "ok"	
 
