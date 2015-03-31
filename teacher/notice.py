@@ -1,4 +1,4 @@
-#!/usr/bin/python
+!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 print "Cache-Control:no-store, no-cache, must-revalidate"

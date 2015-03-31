@@ -221,7 +221,7 @@ o_loc = '/home/ubuntu/temp/'+student_id+'/'+str(assignment_id)+'/'+str(problem_i
 #---------rename file form file_name to j_file_name--------------------------	
 if(language == 'java'):
 	if((file_name == '' or file_name == None ) and (j_file_name != '' or j_file_name != None )):
-		file_name = j_file_name + ext[lang]
+		file_name = j_file_name 
 	elif((file_name != '' or file_name != None ) and (j_file_name != '' or j_file_name != None )):
 			if(file_name != j_file_name):
 				file_name = j_file_name + ext[lang]	
