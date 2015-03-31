@@ -19,6 +19,7 @@ import footer
 
 data = cgi.FieldStorage()
 course_id = data.getvalue('cid')
+title="Assignment"
 
 if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
@@ -68,7 +69,7 @@ if c['type'].value == "teacher":
 	#print assign
 	TEMPLATE_FILE = "/var/www/html/teacher/assignment.html"
 	template = templateEnv.get_template( TEMPLATE_FILE )
-	templateVars = { "cid":course_id,"name":c['name'].value, "footer": footer.html, "alist":assign }
+	templateVars = {"title":title, "cid":course_id,"name":c['name'].value,  "alist":assign }
 	print template.render( templateVars )
 else:
 	TEMPLATE_FILE = "/var/www/html/redirect.html"
