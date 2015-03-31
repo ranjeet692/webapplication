@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	  	{% block head %}
+		<title>{% block title %}{%endblock%}</title>
+		<meta charset="utf-8">
+		<meta http-equiv="Cache-Control" Content="no-cache, no-store, must-revalidate ,max-age=0,s-maxage=0, proxy revalidate">
+		<meta http-equiv ="Pragma" Content="no-cache">
+		<meta http-equiv ="Expires" Content="0">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <link href="http://www.neoscript.in/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	    <link href="http://www.neoscript.in/css/bootstrap.min.css" rel="stylesheet">
+	    <link rel="icon" href="http://www.neoscript.in/favicon.ico">
+	    {% endblock %}
+	</head>
+	<body>
+		{% include "/var/www/html/header_user.html" %}
+		{% block content %}
+		<!-- Optional: Include the jQuery library -->
+		<script src="http://www.neoscript.in/js/jquery.js"></script>
+		<!-- Optional: Incorporate the Bootstrap JavaScript plugins -->
+		<script src="http://www.neoscript.in/js/bootstrap.min.js"></script>
+		{% endblock %}
+		{% include "/var/www/html/footer.html" %}
+	</body>
+</html>		   
+    	

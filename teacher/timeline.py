@@ -10,7 +10,7 @@ import cgi, cgitb,Cookie,os
 import footer
 data = cgi.FieldStorage()
 cid = data.getvalue("cid")
-title = "NeoScript | Report"
+title = "Timeline"
 
 if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')

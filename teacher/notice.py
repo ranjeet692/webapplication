@@ -1,4 +1,4 @@
-!/usr/bin/python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 print "Cache-Control:no-store, no-cache, must-revalidate"
@@ -7,10 +7,10 @@ print "Content-Type: text/html\n\n"
 from jinja2 import Template, Environment, FileSystemLoader
 from connection import cursor, db
 import cgi, cgitb,Cookie,os
-import footer
+
 data = cgi.FieldStorage()
 cid = data.getvalue("cid")
-title = "NeoScript | Report"
+title = "Notification"
 
 if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
@@ -23,7 +23,7 @@ if c['type'].value == "teacher":
 	contents = open("../course/"+ str(cid) + "/notification.txt").read()
 	TEMPLATE_FILE = "/var/www/html/teacher/notice.html"
 	template = templateEnv.get_template( TEMPLATE_FILE )
-	templateVars = { "title" : title,  "cid":cid,"name":c['name'].value,"content":contents ,"footer": footer.html }
+	templateVars = { "title" : title,  "cid":cid,"name":c['name'].value,"content":contents }
 	print template.render( templateVars )
 else:
 	TEMPLATE_FILE = "/var/www/html/redirect.html"
