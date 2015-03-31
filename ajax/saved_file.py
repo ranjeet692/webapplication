@@ -28,4 +28,4 @@ if(filename != ''):
 	elif(op == 'file'):
 		print filename
 else:
-    print ''	
+    print "no file"	
