@@ -30,7 +30,7 @@ if ppid==None:
 	TEMPLATE_FILE = "/var/www/html/problem_code.html"
 	template = templateEnv.get_template( TEMPLATE_FILE )
 
-	templateVars = { "title" : data[0][0], "description": data[0][1] + '<br><hr><strong>Sample Input/Output</strong><br><br>'+data[0][2] + '<br><hr><strong>Limits</strong><br><br>' +data[0][3],"name":c['name'].value, "pid":problem_id, "aid":assignment_id, "footer":footer.html, "cid":course_id }
+	templateVars = { "title" : data[0][0], "description": data[0][1] + '<br><hr><strong>Sample Input/Output</strong><br><br>'+data[0][2] + '<br><hr><strong>Limits</strong><br><br>' +data[0][3],"name":c['name'].value, "pid":problem_id, "aid":assignment_id, "cid":course_id, "ppid":"-1" }
 	print template.render( templateVars )
 
 else:
@@ -43,7 +43,7 @@ else:
 	TEMPLATE_FILE = "/var/www/html/practise_code.html"
 	template = templateEnv.get_template( TEMPLATE_FILE )
 
-	templateVars = { "title" : data[0][0], "description": data[0][1] + '<br><hr><strong>Sample Input/Output</strong><br><br>'+data[0][2] + '<br><hr><strong>Limits</strong><br><br>' +data[0][3],"name":c['name'].value, "ppid":ppid, "footer":footer.html}
+	templateVars = { "title" : data[0][0], "description": data[0][1] + '<br><hr><strong>Sample Input/Output</strong><br><br>'+data[0][2] + '<br><hr><strong>Limits</strong><br><br>' +data[0][3],"name":c['name'].value, "ppid":ppid, "aid":"-1", "pid":"-1", "cid":"-1"}
 	print template.render( templateVars )
 
 
