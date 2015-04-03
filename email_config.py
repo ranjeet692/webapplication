@@ -1,5 +1,4 @@
 #!/usr/bin/python
-print "Content-Type: text/html\n\n"
 import smtplib
 def sendemail(to, subject, message ):
 	try:
