@@ -106,6 +106,8 @@ class CodeHandler:
 					
 			if result=="":
 				result = "<strong>Compiled Successfully</strong>"
+			else:
+				result = "<pre>"+result+"</pre>"	
 		except:
 			print "Unexpected error:", sys.exc_info()[0]
 			raise
@@ -157,6 +159,7 @@ class CodeHandler:
 			output = 'Error'
 			lan = []
 			time = []
+			match = []
 			if language == 'java':
 				#print 'here'
 				if aid != '-1' and pid != '-1':
@@ -168,15 +171,21 @@ class CodeHandler:
 					save_result="update practise_submission set tc1='{0}',tc2='{1}',tc3='{2}',tc4='{3}',tc5='{4}' where ppid='{5}' and email_id='{6}'".format(str(java_compile.re[0]),str(java_compile.re[1]),str(java_compile.re[2]),str(java_compile.re[3]),str(java_compile.re[4]),str(ppid),str(student_id))
 						
 				r=0
+				s = 0.0
+				m = 0.0
 				for i in range(5):
 					if java_compile.re[i]==True:
 						r=r+1
 					lan.append(java_compile.re[i])
 					time.append(java_compile.t[i])
+					match.append(str(java_compile.mt[i]*100))
 					time[i]=str(time[i])[:7]
-				if r!=0:
+					match[i] = str(match[i])[:5]
+					if java_compile.mt[i] >= 0:
+						s = s + java_compile.mt[i]
+				m = s/5*100
+				if r!= 0:
 					r=(float(r)/5)*100
-					
 				if aid != '-1' and pid != '-1':	
 					score="update submission_code set score='{0}' where assignment_id='{1}' and problem_id='{2}' and email_id='{3}'".format(str(r),str(aid),str(pid),str(sid))	
 				else:
@@ -194,14 +203,20 @@ class CodeHandler:
 					save_result="update practise_submission set tc1='{0}',tc2='{1}',tc3='{2}',tc4='{3}',tc5='{4}' where ppid='{5}' and email_id='{6}'".format(str(c_compile.re[0]),str(c_compile.re[1]),str(c_compile.re[2]),str(c_compile.re[3]),str(c_compile.re[4]),str(ppid),str(student_id))	
 				
 				r=0
-				
+				s = 0.0
+				m=0.0
 				for i in range(5):
 					if c_compile.re[i]==True:
 						r=r+1
 					lan.append(c_compile.re[i])
 					time.append(c_compile.t[i])
+					match.append(str(c_compile.mt[i]*100))
 					time[i]=str(time[i])[:7]
-				if r!=0:
+					match[i] = str(match[i])[:5]
+					if c_compile.mt[i] >= 0:
+						s = s + c_compile.mt[i]
+				m = s/5*100
+				if r!= 0:
 					r=(float(r)/5)*100
 					
 				if aid != '-1' and pid != '-1':		
@@ -216,10 +231,10 @@ class CodeHandler:
 				cursor.execute(save_result)			
 				cursor.execute(score)
 				db.commit()
-				output = '<div class="panel-heading">Test Cases</div><div class="panel-body"><table class="table"><tr><th>#</th><th>Time</th><th>Result</th></tr>'
+				output = '<div class="panel-heading">Test Cases</div><div class="panel-body"><table class="table"><tr><th>#</th><th>Time</th><th>Result</th><th>Match</th></tr>'
 				for i in range(5):
-					output = output + '<tr><td>'+str(i+1)+'</td><td>'+str(time[i])+'</td><td>'+str(lan[i])+'</td></tr>'
-				output = output + '<tr><td>Your Score for the problem is '+str(r)+'%</td><td></td><td></td><tr/></table></div>'
+					output = output + '<tr><td>'+str(i+1)+'</td><td>'+str(time[i])+'</td><td>'+str(lan[i])+'</td><td>'+str(match[i])+' %</td></tr>'
+				output = output + '<tr><td>Your Score for the problem is '+str(r)[:5]+' %</td><td></td><td></td><td></td><tr/></table></div>'
 			else:
 				output = '<div class="breadcrumb">'+st+'</div>'		
 		except:
@@ -314,7 +329,7 @@ status = status.replace('/home/ubuntu/submission/'+str(student_id)+'/'+ director
 status = status.replace('/home/ubuntu/temp/'+str(student_id)+'/p/'+str(ppid)+'/','')		
 status = status.replace('/home/ubuntu/','')
 print head
-print status	
+print status
 print '</div>'
 				
 	

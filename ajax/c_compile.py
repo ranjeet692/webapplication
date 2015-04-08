@@ -1,9 +1,11 @@
 import filecmp,subprocess,os,sys
 from connection import cursor,db
 from cookie import c,load_cookie
+from difflib import SequenceMatcher
 import stat
 import timeit
 re=[]
+mt=[]
 sti=""
 tm=1
 ret=0
@@ -53,6 +55,10 @@ def check_code(pid,assignmnt_id,fn):
 		for i in range(12,17):
 			output_file=output_location+'/'+str(tc)+'.txt'
 			re.append(filecmp.cmp(output_file,data[i]))
+			t1 = open(output_file).read()
+			t2 = open(data[i]).read()
+			m = SequenceMatcher(None,t1,t2)
+			mt.append(m.ratio())
 			tc=tc+1
 	else:
 		for i in range(12,17):
@@ -107,7 +113,11 @@ def p_check_code(ppid,fn):
 		tc=1
 		for i in range(12,17):
 			output_file=output_location+'/'+str(tc)+'.txt'
-			re.append(filecmp.cmp(output_file,data[i]))		
+			re.append(filecmp.cmp(output_file,data[i]))
+			t1 = open(output_file).read()
+			t2 = open(data[i]).read()
+			m = SequenceMatcher(None,t1,t2)
+			mt.append(m.ratio())
 			tc=tc+1
 	else:
 		for i in range(12,17):
