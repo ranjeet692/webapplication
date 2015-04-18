@@ -3,7 +3,10 @@ from connection import cursor,db
 from cookie import c,load_cookie
 import stat
 import timeit
+from difflib import SequenceMatcher
 re=[]
+mt=[]
+s = 0
 sti=""
 tm=1
 ret=0
@@ -54,6 +57,10 @@ def check_code(pid,assignmnt_id,fn):
 		for i in range(12,17):
 			output_file=output_location+'/'+str(tc)+'.txt'
 			re.append(filecmp.cmp(output_file,data[i]))
+			t1 = open(output_file).read()
+			t2 = open(data[i]).read()
+			m = SequenceMatcher(None,t1,t2)
+			mt.append(m.ratio())
 			tc=tc+1
 	else:
 		for i in range(12,17):
@@ -73,7 +80,7 @@ def p_check_code(ppid,fn):
 	fi=open("/home/ubuntu/temp/temp.txt","w+")
 	if os.path.exists(output_location):
 		a=[]
-		subprocess.call(['chmod','777','-R','/var/www/html/codemafia/temp/'])	
+		subprocess.call(['chmod','777','-R','/home/ubuntu/temp/'])	
 	else:	
 		os.makedirs(output_location, 0o777)
 	try:
@@ -110,6 +117,10 @@ def p_check_code(ppid,fn):
 		for i in range(12,17):
 			output_file=output_location+'/'+str(tc)+'.txt'
 			re.append(filecmp.cmp(output_file,data[i]))
+			t1 = open(output_file).read()
+			t2 = open(data[i]).read()
+			m = SequenceMatcher(None,t1,t2)
+			mt.append(m.ratio())
 			tc=tc+1
 	else:
 		for i in range(12,17):

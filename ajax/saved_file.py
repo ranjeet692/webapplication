@@ -14,18 +14,22 @@ form = cgi.FieldStorage()
 assignment_id = form.getvalue('aid')
 problem_id = form.getvalue('pid')
 op = form.getvalue('operation')
+ppid = form.getvalue('ppid')
 filename = ''
 
-sql = "SELECT file_name,language FROM save_code WHERE student_id = '{0}' and assignment_id= {1} and problem_id= {2}".format(c['uid'].value, assignment_id, problem_id)
+sql = "SELECT file_name,language FROM save_code WHERE student_id = '{0}' and assignment_id= {1} and problem_id= {2} and ppid = {3}".format(c['uid'].value, assignment_id, problem_id, ppid)
 cursor.execute(sql)
 if(cursor.rowcount > 0):
 	data = cursor.fetchall()
 	filename = data[0][0]
 if(filename != ''):
 	if (op == 'code'):	
-		contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/" + assignment_id + "/" + str(filename)).read()	
+		if(assignment_id != -1 and problem_id != -1):
+			contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/" + assignment_id + "/" + str(filename)).read()	
+		else:
+			contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/p_problem/" + str(filename)).read()	
 		print contents
 	elif(op == 'file'):
 		print filename
 else:
-    print ''	
+    print 'no file'	

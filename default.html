@@ -1,22 +1,14 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>NeoScript.in | Home </title>
-		<meta charset="utf-8"> 
+	{% extends "/var/www/html/base.html" %}
+	{% block title %}NeoScript.in | {{ title_log }}{%endblock%}
+	{% block head %}
+		{{ super() }}	 
 		<meta http-equiv="Cache-Control" Content="no-cache, no-store, must-revalidate ,max-age=0,s-maxage=0, proxy revalidate">
 		<meta http-equiv ="Pragma" Content="no-cache">
 		<meta http-equiv ="Expires" Content="0">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="Description" content="HomePage">
-		<link rel="icon" href="favicon.ico">
-		<link rel="stylesheet" href="http://www.neoscript.in/css/bootstrap.min.css">
 		<link rel="stylesheet" href="http://www.neoscript.in/css/front.css">
 		<link href="http://www.neoscript.in/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 		<link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-		<script src="http://www.neoscript.in/js/jquery.js"></script>
-		<!-- Optional: Incorporate the Bootstrap JavaScript plugins -->
-		<script src="http://www.neoscript.in/js/bootstrap.min.js"></script>
+		
 		<style>
 			body{
 				/*background-image:url('bat.jpg');*/
@@ -43,8 +35,8 @@
 				
 			}
 		</style>
-	</head>
-	<body >
+	{% endblock %}
+	{% block content %}
 	
 		<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
 		
@@ -63,7 +55,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                    <li>
-                        <a href="about_us.html">About Us</a>
+                        <a href="about_us.py">About Us</a>
                     </li>
 		    <li>
                         <a href="#contact">Contact Us</a>
@@ -271,7 +263,7 @@
 	<meta content="width=device-width,initial-scale=1.0,user-scalable=0" name="viewport">	
 	 <script src="http://www.neoscript.in/js/bootbox.min.js"></script>
 	 <script src="http://www.neoscript.in/js/bootstrap.min.js"></script>
-	</body>
+	
 	<script>
 		$("#queryform").submit(function(e) {
 				        e.preventDefault();
@@ -301,5 +293,5 @@
 				
 			});
 	</script>
-	
-</html>	
+	{% endblock %}
+
