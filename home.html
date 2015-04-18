@@ -10,9 +10,13 @@
     <title>Home | NeoScript</title>
     <link href="http://www.neoscript.in/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://www.neoscript.in/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://www.neoscript.in/teacher/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.neoscript.in/flot/jquery.flot.min.js"></script>   
+    <!--<script type="text/javascript" src="http://www.neoscript.in/flot/jquery.flot.symbol.js"></script>
+    <script type="text/javascript" src="http://www.neoscript.in/flot/jquery.flot.axislabels.js"></script>-->
   </head>
   <body>
-  	<script src="http://www.neoscript.in/js/cookie-js/jquery.cookie.js"></script>
+  	<!--<script src="http://www.neoscript.in/js/cookie-js/jquery.cookie.js"></script>
 		<script>
 			if($.cookie("uid")){
 				//alert("cookie is not set");
@@ -22,7 +26,7 @@
 			{
 				window.location="<%=BaseURL %>" + "index1.py"
 			}
-	</script>
+	</script>-->
 	  <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -60,7 +64,8 @@
 <div class='course_page'>	
 	<div class="container">
 		<ul class="nav nav-pills nav-justified" role="tablist">
-		    <li role="presentation" class="active"><a href="#course_page" aria-controls="home" role="tab" data-toggle="tab">Enrolled Courses</a></li>
+		    <li role="presentation" class="active"><a href="#dashboard" aria-controls="home" role="tab" data-toggle="tab">Dashboard</a></li>
+		    <li role="presentation"><a href="#course_page" aria-controls="home" role="tab" data-toggle="tab">Enrolled Courses</a></li>
 		    <li role="presentation" ><a href="#acourse" aria-controls="acourse" role="tab" data-toggle="tab">Available Courses</a></li>
 		    <li role="presentation"><a href="#p_problem" aria-controls="practice" role="tab" data-toggle="tab">Practise Problems</a></li>
 		</ul>
@@ -68,7 +73,25 @@
 	<hr/>
 	<br/>
 	<div class="tab-content" id="content">
-		<div class="tab-pane fade in active" id="course_page">
+		<div class="tab-pane fade in active" id="dashboard">
+		<div class="container">
+			<div class="alert alert-info" role="alert">Welcome, {{name}}</div>
+			
+				<div id="pl" class="row" style="height:350px;text-align:center;margin:5%">       
+        				<div class="span8" id="flot-placeholder" style="width:60%;height:100%;"></div>
+        			<div id="sub" class="span4" class="panel panel-default">
+  					asdasdasd
+ 					 <!--<div class="panel-heading">Recent Activity</div>
+  						
+  					<table class="table">
+  					  ...
+ 					 </table>-->
+				</div>       
+    			</div>
+
+		</div>	
+	</div>
+		<div class="tab-pane fade" id="course_page">
 			<div class="container">
 			<br/>
 			{% for row in enrolled %}
@@ -80,12 +103,10 @@
             		</div>
             		<div class="col-md-7">
                 		<h3> {{row[2]}} </h3>
-                	<!--	<h4>January-April 2015</h4>-->
                 		<p>{{row[3]}}</p>
                 		<a class="btn btn-primary" href="course.py?cid={{row[1]}}">Go to Class</i></a>
             		</div>
         		</div>
-        <!-- /.row -->
         		<hr>
 			{% endfor %}
 			</div>
@@ -108,28 +129,9 @@
                 		<a class="btn btn-primary" href="course_intro.py?cid={{row[0]}}&page=index1.py#acourse">Go to Course</i></a>
             		</div>
         		</div>
-        <!-- /.row -->
         		<hr>
 			{% endfor %}
 			</div>
-		<!--	{% for row in all_courses %}
-				<div class="container">      
-					<div class="jumbotron">
-  					<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img class="img-responsive img-hover" src="course/{{row[0]}}/course.jpeg" width="400" height="230">
-      <div class="caption">
-        <p>{{row[1]}}</p>
-        <p><a href="course_intro.py?cid={{row[0]}}&page=index1.py#acourse" class="btn btn-primary" role="button">Go To Course</a> </p>
-      </div>
-    </div>
-  </div>
-</div>
-  
-</div>
-</div>
-{% endfor %}-->
 </div>
 <br/>
 <!-- Code for practise page -->
@@ -155,10 +157,33 @@
 </div>
 </div>
 		<footer>{{ footer }}</footer>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="http://www.neoscript.in/js/bootstrap.min.js"></script>
+    	<script>
+    		$(document).ready(function(){
+  			width=$(document).width();
+    			pl=(Math.round(width*60/100))+"px";
+    			sub=String(width*40/100)+"px";
+    			alert(pl);
+    			document.getElementById("pl").style.width=pl;
+    			document.getElementById("sub").style.width=sub;
+    			
+        		});
+    	</script>
+    	<script>
+    	$.ajax({
+							type: "POST",
+							url: "p.py",
+							success: function(response)
+							{
+								$("#flot-placeholder").html(response);
+								
+							},
+							error: function(response){
+								alert(response);
+						}
+						});
+    </script>
 	<script>
 
 			window.onbeforeload = function(e){
