@@ -55,25 +55,15 @@
 								<p id="submittedassignmentlist" ></p>							
 							</div>
 						</div>
-							
-						
 						
 					</div>
 					<div role="tabpanel" class="tab-pane fade" id="test">
 						<h2>Test</h2>
 						<hr/>
-						<div class="panel panel-info">
-							<div class="panel-heading">Test #</div>
-							<div class="panel-body">
-								<h4>Problem</h4>
-								<hr/>
-								<h4>Date</h4>
-								<hr/>
-								<h4>Result</h4> 
-								<hr/>
-							</div>
-						</div>
-					</div>
+                    	<div id="test_list">
+                           
+                      </div>
+                     </div>
 					<div role="tabpanel" class="tab-pane fade" id="forum">
 						<h2>Forum</h2>
 						<hr/>
@@ -115,7 +105,31 @@
 		{{ super() }}
 		<script>
 			
+			$.ajax({
+				type:'POST',
+				url:'ajax/test_list.py',
+				data:({course_id:{{cid}}}),
+				success: function(response)
+				{
+					$("#test_list").html(response);
+				}
+			});
 			
+			function abc(key)
+			{
+				$.ajax({
+					type: 'POST',
+					url:'ajax/exam_login.py',
+					data:({"key":$("#"+key).val(),"eid":key}),
+					success: function(response)
+					{
+						if(parseInt(response)	 === 1)
+							window.location.assign('http://localhost/exam.py?&eid='+key);
+						else
+							window.alert('Wrong Key');
+					}
+				});			
+			}
 			function code_submit(aid)
 			{
 				$.ajax({
@@ -130,8 +144,7 @@
 
 					});
 			}	
-			
-
+            
 			$.ajax({
 					type: 'POST',
 					url: "course/"+{{cid}}+"/notification.txt",

@@ -39,6 +39,7 @@ if 'HTTP_COOKIE' in os.environ:
 form = cgi.FieldStorage()
 problem_id = form.getvalue('pid')
 assignment_id = form.getvalue('aid')
+exam_id = form.getvalue('eid')
 student_id = c["uid"].value
 language = form.getvalue('l')
 ppid = form.getvalue('ppid')
@@ -64,7 +65,7 @@ class CodeHandler:
 			#print file_name	
 			return file_name	
 		
-	def save_file(self, sid, location, content, filename, pid, aid, lang, ppid):
+	def save_file(self, sid, location, content, filename, pid, aid, lang, ppid,exam_id):
 		try:
 			#print 'save'
 			if not os.path.exists(location):
@@ -76,7 +77,7 @@ class CodeHandler:
 			fi.write(str(content))
 			fi.close()
 			
-  			sql = "INSERT INTO save_code(student_id, assignment_id, problem_id, file_name, language, ppid) VALUES ('{0}', {1}, {2}, '{3}','{4}',{6}) ON DUPLICATE KEY UPDATE file_name = '{5}'".format(sid, aid, pid, filename, lang, filename, ppid)
+  			sql = "INSERT INTO save_code(student_id, assignment_id, problem_id, file_name, language, ppid,exam_id) VALUES ('{0}', {1}, {2}, '{3}','{4}','{6}','{7}') ON DUPLICATE KEY UPDATE file_name = '{5}'".format(sid, aid, pid, filename, lang, filename, ppid,exam_id)
   			cursor.execute(sql)
   			db.commit()
 			status = "<script>var f = '"+str(filename)+"'; document.getElementById('filename').value = f.trim();</script><strong>Saved</strong>"
@@ -154,7 +155,7 @@ class CodeHandler:
 		else:
 			return output
 			
-	def execute_testcase(self, sid, pid, aid, filename, language, ppid):
+	def execute_testcase(self, sid, pid, aid, filename, language, ppid,exam_id):
 		try:
 			output = 'Error'
 			lan = []
@@ -166,6 +167,9 @@ class CodeHandler:
 					java_compile.check_code(pid,aid,filename)
 					save_result="update submission_code set tc1='{0}',tc2='{1}',tc3='{2}',tc4='{3}',tc5='{4}' where assignment_id='{5}' and problem_id='{6}' and email_id='{7}'".format(str(java_compile.re[0]),str(java_compile.re[1]),str(java_compile.re[2]),str(java_compile.re[3]),str(java_compile.re[4]),str(aid),str(pid),str(sid))
 					#print 'executed'
+				elif exam_id != '-1' and pid != '-1':
+					java_compile.check_code(pid,("e"+exam_id),filename)
+					save_result="update submission_code set tc1='{0}',tc2='{1}',tc3='{2}',tc4='{3}',tc5='{4}' where exam_id='{5}' and problem_id='{6}' and email_id='{7}'".format(str(java_compile.re[0]),str(java_compile.re[1]),str(java_compile.re[2]),str(java_compile.re[3]),str(java_compile.re[4]),str(exam_id),str(pid),str(sid))
 				else:
 					java_compile.p_check_code(ppid, filename)
 					save_result="update practise_submission set tc1='{0}',tc2='{1}',tc3='{2}',tc4='{3}',tc5='{4}' where ppid='{5}' and email_id='{6}'".format(str(java_compile.re[0]),str(java_compile.re[1]),str(java_compile.re[2]),str(java_compile.re[3]),str(java_compile.re[4]),str(ppid),str(student_id))
@@ -188,6 +192,8 @@ class CodeHandler:
 					r=(float(r)/5)*100
 				if aid != '-1' and pid != '-1':	
 					score="update submission_code set score='{0}' where assignment_id='{1}' and problem_id='{2}' and email_id='{3}'".format(str(r),str(aid),str(pid),str(sid))	
+				elif exam_id != '-1' and pid != '-1':
+					score="update submission_code set score='{0}' where exam_id='{1}' and problem_id='{2}' and email_id='{3}'".format(str(r),str(exam_id),str(pid),str(sid))
 				else:
 					score="update practise_submission set score='{0}' where ppid='{1}' and  email_id='{2}'".format(str(r),str(ppid),str(student_id))
 						
@@ -252,6 +258,9 @@ lang = language
 if(assignment_id != "-1" and problem_id != "-1" ):
 	directory = str(assignment_id)
 	o_loc = '/home/ubuntu/temp/'+student_id+'/'+str(assignment_id)+'/'+str(problem_id)+'/'
+elif(exam_id != "-1" and problem_id != "-1" ):
+	directory = "e"+str(exam_id)
+	o_loc = '/home/ubuntu/temp/'+student_id+'/'+"e"+str(exam_id)+'/'+str(problem_id)+'/'
 else:
 	directory = 'p_problem'	
 	o_loc = '/home/ubuntu/temp/'+student_id+'/p'+str(ppid)+'/'
@@ -271,20 +280,20 @@ if(language == 'java'):
 if service_request == 'save':
 	if file_name == '' or file_name == None:
 		file_name = code.create_file(loc,ext[lang])
-	status = code.save_file(student_id, loc, content, file_name, problem_id,assignment_id, language, ppid)
+	status = code.save_file(student_id, loc, content, file_name, problem_id,assignment_id, language, ppid,exam_id)
 	head = '<div class="breadcrumb">'
 	
 if service_request == 'compile':
 	if file_name == '' or file_name == None:
 		file_name = code.create_file(loc,ext[lang])
-	status = code.save_file(student_id, loc, content, file_name, problem_id,assignment_id, language, ppid)
+	status = code.save_file(student_id, loc, content, file_name, problem_id,assignment_id, language, ppid,exam_id)
 	status = code.compile_file(loc, file_name ,language, o_loc)	
 	head = '<div class="breadcrumb">'
 	
 if service_request == 'custom_execute':
 	if file_name == '' or file_name == None:
 		file_name = code.create_file(loc,ext[lang])
-	status = code.save_file(student_id, loc, content, file_name, problem_id,assignment_id, language, ppid)
+	status = code.save_file(student_id, loc, content, file_name, problem_id,assignment_id, language, ppid,exam_id)
 	status = code.compile_file(loc, file_name , language, o_loc)
 	status = code.execute_file(o_loc, file_name , language, c_input)
 	head = '&nbsp;<b>Output</b><br/><div class="breadcrumb">'
@@ -304,6 +313,15 @@ if service_request == 'test_case':
 		cursor.execute(sql)
 		db.commit()	
 		
+	elif(exam_id != "-1" and problem_id != "-1" ):
+		sql = "select * from submission_code where exam_id = '{0}' and problem_id = '{1}' and email_id = '{2}'".format(str(exam_id),str(problem_id), str(student_id))
+		cursor.execute(sql)
+		if(cursor.rowcount > 0):
+			sql = "UPDATE submission_code SET time = now(),file_name='{3}' WHERE exam_id = '{0}' and problem_id = '{1}' and email_id = '{2}'".format(str(exam_id),str(problem_id), str(student_id),str(file_name))
+		else:	
+			sql = "INSERT INTO submission_code(exam_id,problem_id, email_id,file_name) VALUES('{0}','{1}','{2}','{3}')".format(str(exam_id),str(problem_id), str(student_id),str(file_name))
+		cursor.execute(sql)
+		db.commit()
 	else:	
 		sql = "select * from practise_submission where ppid = '{0}' and email_id = '{1}'".format(str(ppid),str(student_id))
 		cursor.execute(sql)
@@ -314,16 +332,17 @@ if service_request == 'test_case':
 		cursor.execute(sql)
 		db.commit()	
 	#-----------------------saving coding------------------------------------------
-	status = code.save_file(student_id, loc, content, file_name, problem_id,assignment_id, language, ppid)
+	status = code.save_file(student_id, loc, content, file_name, problem_id,assignment_id, language, ppid,exam_id)
 	#print status
 	#-----------------------compiling code----------------------------------------
 	#status = code.compile_file(loc, file_name , language, o_loc)
 	#print status
 	#----------------------executing testcases-----------------------------------
-	status = code.execute_testcase(student_id, problem_id,assignment_id, file_name, language, ppid)	
+	status = code.execute_testcase(student_id, problem_id,assignment_id, file_name, language, ppid,exam_id)	
 	head='<div>'
 
 #replacing directory path from error return by compiler
+status = status.replace('/home/ubuntu/temp/'+str(student_id)+'/'+"e"+(exam_id)+'/'+str(problem_id)+'/','')
 status = status.replace('/home/ubuntu/temp/'+str(student_id)+'/'+(assignment_id)+'/'+str(problem_id)+'/','')	
 status = status.replace('/home/ubuntu/submission/'+str(student_id)+'/'+ directory +'/','')	
 status = status.replace('/home/ubuntu/temp/'+str(student_id)+'/p/'+str(ppid)+'/','')		

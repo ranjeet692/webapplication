@@ -2,6 +2,7 @@
 	{% block title %}Home | NeoScript{%endblock%}
 	{% block head %}
 		{{ super() }}
+		<script type="text/javascript" src="http://www.neoscript.in/flot/jquery.flot.min.js"></script>
     <meta name="Description" content="HomePage">
     {% endblock %}
   
@@ -10,7 +11,8 @@
 	<div class='course_page'>	
 		<div class="container">
 			<ul class="nav nav-pills nav-justified" role="tablist">
-			    <li role="presentation" class="active"><a href="#course_page" aria-controls="home" role="tab" data-toggle="tab">Enrolled Courses</a></li>
+			<li role="presentation" class="active"><a href="#dashboard" aria-controls="home" role="tab" data-toggle="tab">Dashboard</a></li>
+			    <li role="presentation"><a href="#course_page" aria-controls="home" role="tab" data-toggle="tab">Enrolled Courses</a></li>
 			    <li role="presentation" ><a href="#acourse" aria-controls="acourse" role="tab" data-toggle="tab">Available Courses</a></li>
 			    <li role="presentation"><a href="#p_problem" aria-controls="practice" role="tab" data-toggle="tab">Practise Problems</a></li>
 			</ul>
@@ -18,7 +20,27 @@
 		<hr/>
 		<br/>
 		<div class="tab-content" id="content">
-			<div class="tab-pane fade in active" id="course_page">
+		<div class="tab-pane fade in active" id="dashboard">
+		<div class="container">
+			<div class="alert alert-info" role="alert">Welcome, {{name}}</div>
+			
+				<div id="pl" style="height:350px;margin:5%">       
+        			<div id="flot-placeholder" style="width:60%;height:100%;"></div>
+        			<br>
+        			<p>Performance Graph Based on problems solved in chronological order</p>
+        			<!--<div id="sub" class="span4" class="panel panel-default">
+ 					 Graph
+ 					 <!--<div class="panel-heading">Recent Activity</div>
+  						
+  					<table class="table">
+  					  ...
+ 					 </table>
+				</div>       -->
+    			</div>
+
+		</div>	
+	</div>
+			<div class="tab-pane fade" id="course_page">
 				<div class="container">
 				<br/>
 				{% for row in enrolled %}
@@ -62,24 +84,6 @@
         			<hr>
 				{% endfor %}
 				</div>
-		<!--	{% for row in all_courses %}
-				<div class="container">      
-					<div class="jumbotron">
-  					<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img class="img-responsive img-hover" src="course/{{row[0]}}/course.jpeg" width="400" height="230">
-      <div class="caption">
-        <p>{{row[1]}}</p>
-        <p><a href="course_intro.py?cid={{row[0]}}&page=index1.py#acourse" class="btn btn-primary" role="button">Go To Course</a> </p>
-      </div>
-    </div>
-  </div>
-</div>
-  
-</div>
-</div>
-{% endfor %}-->
 			</div>
 			<br/>
 			<!-- Code for practise page -->
@@ -120,5 +124,19 @@
     	    window.location.hash= event.target.hash;
    		 })
 	});
-	</script>		
+	</script>
+    	<script>
+    	$.ajax({
+							type: "POST",
+							url: "p.py",
+							success: function(response)
+							{
+								$("#flot-placeholder").html(response);
+								
+							},
+							error: function(response){
+								alert(response);
+						}
+						});
+    </script>	
   {% endblock %}
