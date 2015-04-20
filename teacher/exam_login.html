@@ -16,40 +16,48 @@
 		 <div id="page-wrapper">
 			<div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Assignment</h1>
+                    <h1 class="page-header">Exam Section</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
 			<!-- table -->
-			<div class="row">
-				<div class="col-sm-3">
-				</div>
-				<div class="col-sm-6">
-					<a href="new_assignment.py?cid={{cid}}&option=new" role="button" class="btn btn-info btn-block col-md-6">Create New Assignment</a>
-				</div>	
-			</div>
 			<hr/>
 			<table class="table table-bordered table-striped">
   				<tbody>
   					<tr>
-  						<th>#</th><th>Title</th><th>Problems</th><th>Start Date</th><th>End Date</th><th>Type</th><th>Opertation</th>
-  					</tr>	
-  					
-  					{% for row in alist %}
+  						<th>Title</th><th>Code</th><th></th>
+  					</tr>
+  					{% for row in examlist %}
   					<tr class="{{row[9]}}">
-  						<td>{{row[7]}}</td><td>{{row[1]}}</td><td>{{row[6]}}</td><td>{{row[2]}}</td><td>{{row[3]}}</td><td>{{row[5]}}</td><td><a href="new_assignment.py?cid={{ row[4] }}&option=edit&aid={{row[0]}}" role="button" class="btn btn-info btn-block ">Details</a></td>
+  						
+  						<td>{{row[1]}}</td><td id = "code{{row[0]}}">{{row[2]}}</td><td><button role="button" type="button" class="btn btn-info btn-block" onclick="changeCode({{row[0]}})">Regenerate Code</a></td>
   					</tr>
   					{% endfor %}
   				</tbody>
 			</table>
 			<!-- end table -->
 		</div>
-		<footer>
-			{{ footer }}
-		</footer>
+		
 		<!-- end page wrapper-->
 		</div>
 		<!--end wrapper-->
 		 <!-- Bootstrap Core JavaScript -->
-    {{ super() }}
+		 
+	{{ super() }}
+	<script>
+		function changeCode(id){
+			$.ajax({
+						type: "POST",
+						url: "ajax/change_login_code.py",
+						data: { eid:id }, // serializes the form's elements.
+						success: function(response)
+						{
+							$("#code"+id).html(response);
+						},
+						error: function(response){
+							$("#code"+id).html(response);
+						}
+					});
+    	}
+    </script>
 {% endblock %}

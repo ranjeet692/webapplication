@@ -45,12 +45,12 @@
 				<br/>
 				{% for row in enrolled %}
 			 		<div class="row">
-    		        	<div class="col-md-5">
+    		        	<div class="col-sm-5">
         	        		<a href="course.py?cid={{ row[1]}}">
         	        	    	<img class="img-responsive img-hover" src="course/{{row[1]}}/course.jpeg" width="400" height="230" alt="">
         	       	 		</a>
         	    		</div>
-        	    		<div class="col-md-7">
+        	    		<div class="col-sm-7">
         	        		<h3> {{row[2]}} </h3>
         	        	<!--	<h4>January-April 2015</h4>-->
         	        		<p>{{row[3]}}</p>
@@ -67,12 +67,12 @@
 				<br/>
 				{% for row in all_courses %}
 		 			<div class="row">
-    	        		<div class="col-md-5">
+    	        		<div class="col-sm-5">
             	    		<a href="course_intro.py?cid={{ row[0]}}&page=index1.py#acourse">
             	    	    	<img class="img-responsive img-hover" src="course/{{row[0]}}/course.jpeg" width="400" height="230" alt="">
                	 			</a>
             			</div>
-            			<div class="col-md-7">
+            			<div class="col-sm-7">
                 			<h3> {{row[1]}} </h3>
                 			
                 			<p>{{row[3]}}</p>
@@ -90,14 +90,14 @@
 			<div class="tab-pane fade" id="p_problem">
 				<div class="container">
 					<div class="row">
-						<div class = "col-md-7">
+						<div class = "col-sm-7">
 							<h4>Unattempted Problems</h4>
 							<a href="#" class="list-group-item active"><span class="badge">Level</span>Problem Title</a>
 							{% for row in p_problem %}
   								<a href="problem_code.py?ppid={{row[0]}}" class="list-group-item"><span class="badge">{{row[2]}}</span>{{row[1]}}</a>
 							{% endfor %}
 						</div>	
-						<div class="col-md-5"> 
+						<div class="col-sm-5"> 
 							<h4>Attempted Problems</h4>
 							<a href="#" class="list-group-item active"><span class="badge">Score</span>Problem Title</a>
 							{% for row in s_problem %}
@@ -135,7 +135,7 @@
 								
 							},
 							error: function(response){
-								alert(response);
+								//alert(response);
 						}
 						});
     </script>	
