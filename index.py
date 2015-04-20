@@ -4,10 +4,13 @@ print "Cache-Control:no-store, no-cache, must-revalidate"
 import cgi,cgitb,Cookie,sha,time,os
 import connection
 import footer
+from mixpanel import Mixpanel
 #import session
 from jinja2 import Template, Environment, FileSystemLoader
 #for error reporting
 cgitb.enable()
+mp = Mixpanel("d4de82f1514bafcd4aea2120c5b1a5db")
+mp.track('page viewed', 'landingPage');
 #what is the use of this line
 templateLoader = FileSystemLoader( searchpath="/" )
 templateEnv = Environment( loader=templateLoader )

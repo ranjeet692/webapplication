@@ -5,7 +5,6 @@ from jinja2 import Template, Environment, FileSystemLoader
 from connection import cursor, db
 import cgi,cgitb,Cookie,os
 import footer
-
 data= cgi.FieldStorage()
 course_id = data.getvalue('cid')
 page = str(data.getvalue('page'))
@@ -18,8 +17,8 @@ f='/var/www/html/course/'+str(course_id)+'/syllabus.txt'
 a=open(f)
 desc=a.read()
 a.close()
-sql = "SELECT email_id, name, institute FROM teacher WHERE name = %s"
-cursor.execute(sql,(data[0][1])) 
+sql = "SELECT email_id, name, institute FROM teacher WHERE name = '{0}'".format((data[0][1]))
+cursor.execute(sql) 
 tdetails = cursor.fetchall()
 
 if 'HTTP_COOKIE' in os.environ:
