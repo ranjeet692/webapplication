@@ -6,11 +6,11 @@ import datetime
 from cookie import c,load_cookie
 form = cgi.FieldStorage()
 eid=form.getvalue('eid')
-query="select * from exam where exam_id='{0}'".format(str(eid))
+query="select exam_id, title, startdate, enddate, course_id, type, code from exam where exam_id='{0}'".format(str(eid))
 cursor.execute(query)
 data=cursor.fetchone()
 load_cookie()
-if(datetime.datetime.now()<data[5]):
+if(datetime.datetime.now()<data[3]):
 	print "Cache-Control:no-store, no-cache, must-revalidate"
 	print "Content-Type: text/html\n\n"
 	print '1'
