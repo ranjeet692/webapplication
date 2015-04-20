@@ -5,6 +5,9 @@ import cgi, os,Cookie, sys, subprocess
 import stat,timeit
 from random import randint
 from connection import cursor, db
+from mixpanel import Mixpanel
+mp = Mixpanel("d4de82f1514bafcd4aea2120c5b1a5db")
+mp.track('page viewed', 'compilation Requests')
 try: # Windows needs stdio set for binary mode.
     import msvcrt
     msvcrt.setmode (0, os.O_BINARY) # stdin  = 0

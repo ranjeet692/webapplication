@@ -5,6 +5,9 @@ from jinja2 import Template, Environment, FileSystemLoader
 print "Content-Type: text/html\n\n"
 templateLoader = FileSystemLoader( searchpath="/" )
 templateEnv = Environment( loader=templateLoader )
+from mixpanel import Mixpanel
+mp = Mixpanel("d4de82f1514bafcd4aea2120c5b1a5db")
+mp.track('page viewed', 'acourse w/0 login');
 acourse="select * from courses"
 connection.cursor.execute(acourse)
 all_courses=connection.cursor.fetchall()
