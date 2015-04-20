@@ -9,9 +9,6 @@ cgitb.enable()
 from jinja2 import Template, Environment, FileSystemLoader
 import sys, os
 import footer
-#sys.path.append(os.environ['DOCUMENT_ROOT'])
-#sess=form.getvalue('s')
-#sess.close()
 if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
 	c=Cookie.SimpleCookie()
@@ -20,6 +17,10 @@ if 'HTTP_COOKIE' in os.environ:
 	c['uid']['expires']='Thu, 01 Jan 1970 00:00:00 GMT'
 	#modified on 22nd Jan
 	c['type']['expires']='Thu, 01 Jan 1970 00:00:00 GMT'
+	try:
+		c['exam']['expires']='Thu, 01 Jan 1970 00:00:00 GMT'
+	except KeyError:
+		pass	
 	print c.output()
 	print "Content-Type: text/html\n\n"	
 	templateLoader = FileSystemLoader( searchpath="/" )
