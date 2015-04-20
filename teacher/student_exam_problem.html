@@ -1,0 +1,71 @@
+{% extends "/var/www/html/teacher/base.html" %}
+	{% block title %}{{ title }} | NeoScript {%endblock%}
+	{% block head %}
+		{{ super() }}
+		<meta http-equiv="Cache-Control" Content="no-cache, no-store, must-revalidate ,max-age=0,s-maxage=0, proxy revalidate">
+		<meta http-equiv ="Pragma" Content="no-cache">
+		<meta http-equiv ="Expires" Content="0">	
+	{% endblock %}
+	{% block content %}
+		<!-- wrapper -->
+		<div id="wrapper">
+		<!--navbar-->
+		<p id="header"></p>
+		<!--navbar end-->
+		<!--page wrapper-->
+		 <div id="page-wrapper">
+			<div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Problem Allocation</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div class="row">
+            	<div class="col-sm-12">
+            		<table class="table table-hover">
+            		{% for row in eplist %}
+            			<tr>
+  							<td><strong><span style="color:#333;">{{row[3]}}</span></strong></td><td><strong><span style="color:#333;">{{row[1]}}</span></strong></td><td><textarea rows="2" cols="30" id="{{row[2]}}"></textarea></td><td><button type="button" class="btn btn-info btn-block" id="b{{row[2]}}" onclick="saveProblemStudentMap({{row[2]}}, {{row[0]}})">Save</button>
+  							</td>
+  						</tr>
+  					{% endfor %}
+            		</table>
+				</div>
+				<!-- exam problem column-->
+			</div>
+			<!--end row-->	
+         </div>
+		
+		<!-- end page wrapper-->
+		</div>
+		<!--end wrapper-->
+		 <!-- Bootstrap Core JavaScript -->
+		 
+	{{ super() }}
+	<script>
+		function saveProblemStudentMap(pid, eid){
+			var lines = $('#'+pid).val().split(/,/);
+			var texts = [];
+			for (var i=0; i < lines.length; i++) {
+  				// only push this line if it contains a non whitespace character.
+  				if (/\S/.test(lines[i])) {
+    				texts.push($.trim(lines[i]));
+  				}
+			}
+			var ar = [eid, pid, texts];
+			var jsonData = JSON.stringify(ar);
+			$.ajax({
+							type: "POST",
+							url: "ajax/student_problem_map.py?cid={{cid}}&eid="+eid+"&pid="+pid+"",
+							data: { jsonString: jsonData }, // serializes the form's elements.
+							success: function(response)
+							{
+								$("#b"+pid).html(response);
+							},
+							error: function(response){
+								$("#b"+pid).html(response);
+						}
+					});
+		}
+	</script>
+{% endblock %}

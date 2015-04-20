@@ -25,9 +25,9 @@
             	</div>-->
             	<div class="row">
 					<div class="col-md-3">
-						<select id="assignment_select" class="form-control input-sm">
-							<option value="-1">assignment</option>
-								{% for row in assignment %}
+						<select id="exam_select" class="form-control input-sm">
+							<option value="-1">Exams</option>
+								{% for row in examlist %}
 							<option value="{{ row[0] }}">{{ row[1] }}</option>
 								{% endfor %}
 						</select>
@@ -49,20 +49,7 @@
 					<div class="col-md-9">
 						<pre id="code_editor"></pre>
 						<hr/>
-						<form action="/" method="POST" id="feedbackForm">
-							<div class="panel panel-default feedback_panel">
-								<div class="panel-body">
-									<strong>Feedback </strong>
-								</div>
-								<div class="panel-footer">
-									<textarea class="form-control" name="feed" id="feed" rows="3" placeholder="first select assignment, problem and student then enter text here and press submit button once and wait for message of successful operation"></textarea>
-									<br/>
-									 <button type="submit" class="btn btn-warning">Submit</button>
-
-								</div>
-							</div>	
-							
-						</form>
+						
 					</div>
 					<div class="col-md-3">
 						<div class="list-group" id="submission_list">   
@@ -79,16 +66,11 @@
 		<script>
 			var email = ''
 			var editor = ace.edit("code_editor");
-			/*$( document ).ready(function() {	
-					editor.setTheme("ace/theme/chrome");
-					editor.getSession().setMode("ace/mode/java");
-					alert("mode");
-			});	*/
-				$("#assignment_select").change(function(e){
+				$("#exam_select").change(function(e){
 					//alert($("#assignment_select").val());
 					$.ajax({
 					type: 'POST',
-					url: "ajax/problem_list.py?eid=-1&aid="+$("#assignment_select").val(),
+					url: "ajax/problem_list.py?aid=-1&eid="+$("#exam_select").val(),
 					dataType: "text",
 					success: function(response){
 						$("#problem_select").empty();
@@ -106,7 +88,7 @@
 					//alert($("#assignment_select").val());
 					$.ajax({
 					type: 'POST',
-					url: "ajax/submission_list.py?eid=-1&pid="+$("#problem_select").val()+"&aid="+$("#assignment_select").val(),
+					url: "ajax/submission_list.py?aid=-1&pid="+$("#problem_select").val()+"&eid="+$("#exam_select").val(),
 					dataType: "text",
 					success: function(response){
 						$("#submission_list").empty();
@@ -122,12 +104,12 @@
 				email = eid
 				//alert(eid +",  "+ fname);
 				$.ajax({
-							url: 'ajax/code_editor_teacher.py?eid=-1&pid='+$("#problem_select").val()+'&aid='+$("#assignment_select").val()+'&file='+fname+'&email_id='+eid,
+							url: 'ajax/code_editor_teacher.py?aid=-1&pid='+$("#problem_select").val()+'&eid='+$("#exam_select").val()+'&file='+fname+'&email_id='+eid,
 							type:'GET',
 							success:function(response){
 								$("#code_editor").show();
 								editor.getSession().setValue(response);
-								 $("#download").html('<a href="http://www.neoscript.in/submission/'+eid+'/'+$("#assignment_select").val()+'/'+fname+'">Download File</a>');
+								 $("#download").html('<a href="http://www.neoscript.in/submission/'+eid+'/e'+$("#exam_select").val()+'/'+fname+'">Download File</a>');
 								 $("#mail").html('<strong style="color:#337ab7;">'+name+'</strong>');
 							},
 							error:function(response){
@@ -135,23 +117,7 @@
 							}
 						});
 			}
-			$("#feedbackForm").submit(function() {
-					a = document.getElementById('assignment_select').value;
-					b = document.getElementById('problem_select').value;
-					c = email;
-					$.ajax({
-						type: "POST",
-						url: "ajax/problem_feedback.py?aid="+a+"&pid="+b+"&id="+c+"",
-						data: $("#feedbackForm").serialize(), // serializes the form's elements.
-						success: function(response)
-						{
-							alert(response)
-							//$(".feedback_panel").hide(); 
-							//$("#feedbackBox").html("Thanks for your feedback!!")
-						}
-					});
-					return false; // avoid to execute the actual submit of the form.
-			});
+			
 		</script>
 	
 	

@@ -8,8 +8,8 @@
 		<meta http-equiv ="Pragma" Content="no-cache">
 		<meta http-equiv ="Expires" Content="0">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <link href="http://www.neoscript.in/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	    <link href="http://www.neoscript.in/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	    <link href="/css/bootstrap.min.css" rel="stylesheet">
 	    <link rel="icon" href="http://www.neoscript.in/favicon.ico">
 	    <style type="text/css" media="screen">
 			#code_editor{
@@ -52,7 +52,7 @@
 							</div>		
 						</div>	
 					</div>
-					<div class="col-sm-2">
+					<!--<div class="col-sm-2">
 						<button id="save" type="button" class="btn btn-success btn-block">save</button>
 					</div>
 					<div class="col-sm-2">
@@ -61,6 +61,12 @@
 					
 					<div class="col-sm-2">
 						<button id="submit_b" type="button" class="btn btn-success btn-block">submit</button>
+					</div>-->
+					<div class="btn-group" role="group" aria-label="controls">
+						
+						<button id="save" type="button" class="btn btn-success glyphicon glyphicon-floppy-disk " data-toggle="tooltip" data-placement="top" title="Save"></button>
+						<button id="compile" type="button" class="btn btn-success glyphicon glyphicon-cog" data-toggle="tooltip" data-placement="top" title="Compile"></button>
+						<button id="submit_b" type="button" class="btn btn-success glyphicon glyphicon-floppy-open" data-toggle="tooltip" data-placement="top" title="Submit"></button>
 					</div>
 				</div>					
 			</div>
@@ -70,7 +76,7 @@
 				<div class="col-md-5">
 					<textarea class="form-control" name="cinput" id="cinput" rows="3" placeholder="Custom Input"></textarea>
 					<br/>
-					<button id="run" type="button" class="btn btn-success btn-block">run</button>
+					<button id="run" type="button" class="btn btn-success btn-block">Run</button>
 				</div>
 				<div class="col-md-7">
 					<center><p id="loading"><img src="loading_bar.gif" width="150" height="25"/></p></center>
@@ -231,9 +237,20 @@
 				else
  					code_submit("test_case");
  			});
+ 			
+ 			</script>
+ 			<script>
+ 				
+ 				$(function () { $('.tooltip-show').tooltip('show');});
+      			$(function () { $('.tooltip-hide').tooltip('hide');});
+      			$(function () { $('.tooltip-destroy').tooltip('destroy');});
+      			$(function () { $('.tooltip-toggle').tooltip('toggle');});
+      			$(function () { $(".tooltip-options a").tooltip({html : true });
+      			});
  			</script>
 		{% endblock %}
 		{% include "/var/www/html/footer.html" %}
+		<script type="text/javascript"> $("[data-toggle=\"tooltip\"]").tooltip(); </script>
 	</body>
 </html>		   
     	
