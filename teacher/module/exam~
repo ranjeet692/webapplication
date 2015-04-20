@@ -1,0 +1,41 @@
+#!/usr/bin/python
+print "Content-Type: text/html\n\n"
+
+class Exam:
+	def __init__(self):
+		pass
+	
+	def __init__(self, title, type_e, class_id, start_time, end_time):
+		try:
+			sql = "INSERT into exam(title, startdate, enddate, course_id, type) VALUES(%s, %s, %s, %d, %s)"
+			cursor.execute(sql,(str(title), str(start_time), str(end_time), int(course_id), str(type_e)))
+			db.commit()
+		except:
+			pass	
+		else:
+			pass	
+		
+	def update_exam(self, exam_id, title, type_e, start_time, end_time):
+		try:
+			sql = "UPDATE exam set title = %s, startdate = %s, enddate = %s, type = %d"
+			cursor.execute(sql,(str(title), str(start_time), str(end_time), str(type_e)))
+			db.commit()
+		except:
+			pass	
+		else:
+			pass
+		
+	def delete_exam(self, exam_id):
+		pass
+		
+	def assign_problem(self, exam_id, student_id, problem_id):
+		pass
+		
+	def update_assign_problem(self, exam_id, student_id, problem_id):
+		pass
+		
+	def delete_assign_problem(self, exam_id, student_id, problem_id):
+		pass
+		
+	def code_submission(self, exam_id, student_id, tc)					
+		pass
