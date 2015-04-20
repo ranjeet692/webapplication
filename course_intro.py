@@ -29,7 +29,7 @@ if 'HTTP_COOKIE' in os.environ:
 	try:
 		user = c['name'].value
 	except KeyError:
-		user = "Guest"
+		user = ""
 		
 templateLoader = FileSystemLoader( searchpath="/" )
 templateEnv = Environment( loader=templateLoader )
