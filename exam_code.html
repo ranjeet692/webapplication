@@ -1,0 +1,93 @@
+{% extends "/var/www/html/base_code.html" %}
+	{% block title %}{{title}}| NeoScript{%endblock%}
+	{% block head %}
+		{{ super() }}
+		<meta name="Description" content="{{title}}">
+	{% endblock %}
+  
+  	{% block content %}
+    <div class="container">
+    	<ol class="breadcrumb">
+				<li><a href="problem_list.py?eid={{ eid }}">Exam</a></li>
+				<li class="active">{{ title }}</li>
+		</ol>
+		<div class="container-fluid">
+			<h2>{{ title }}</h2>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<p>{{ description }}</p>
+				</div>
+			</div>
+				
+		</div>
+		<!-- container -->
+		{{ super() }}
+		
+	 {% endblock %}
+	 {% block coding %}
+			{{super()}}
+			<script>
+ 			
+ 			
+			// Catch the form submit and upload the files
+			$("#submitform").submit(function(e) {
+				
+				$("#loading").show();
+				e.preventDefault();
+				var form_data = new FormData($("#submitform")[0]);
+				//alert($("#submitform")[1])
+ 				$.ajax({
+					url: 'ajax/submission_code.py?pid='+{{pid}}+'&aid='+{{aid}}+'&l='+$("#language").val(),
+					type: 'POST',
+					data: form_data,
+        			contentType: false,
+        			cache: false,
+        			processData: false,
+        			async: false,
+					success: function(response)
+					{
+						
+						$("#loading").hide();
+						$("#testcase").html(response);
+						$("#testcase").show();
+						$.ajax({
+							url: 'ajax/code_editor.py?pid='+{{pid}}+'&aid='+{{aid}}+'&file='+$("#file").val(),
+							type:'GET',
+							success:function(response){
+								document.getElementById('filename').value = document.getElementById('file').value
+								$("#code_editor").show();
+								editor.getSession().setValue(response);
+								 window.scrollTo(0, 1300);
+								 
+							},
+							error:function(response){
+								
+							}
+						});
+						 console.log('Success!');
+					},
+					error:function(response){
+						$("#alert").show();						
+					},
+					
+				});
+				$("#loading").hide();
+					return false;
+			}); 
+			
+		</script>
+		<script>
+		var ajax_call = function() {
+ 	 		$.ajax({
+ 	 			url:'ajax/exam_session.py?eid={{eid}}',
+ 	 			success:function(response)
+ 	 			{
+ 	 				if(parseInt(response) != 1)
+ 	 					window.location.assign("timeout.html");
+ 	 			}
+ 	 		});
+		};
+		var interval = 1000 * 30 * 1; 
+		setInterval(ajax_call, interval);
+	</script>	
+		{% endblock %}

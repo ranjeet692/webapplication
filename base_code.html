@@ -95,7 +95,7 @@
 					$.ajax({
  						url: 'ajax/saved_file.py', 
  						type: 'POST',
- 						data:{aid: {{aid}}, pid : {{pid}}, ppid: {{ppid}}, operation: 'code' },
+ 						data:{aid: {{aid}}, pid : {{pid}}, ppid: {{ppid}},eid: {{eid}}, operation: 'code' },
  						success: function(response)
  						{
  							
@@ -113,7 +113,7 @@
  					$.ajax({
  						url: 'ajax/saved_file.py', 
  						type: 'POST',
- 						data:{aid: {{aid}}, pid : {{pid}}, ppid: {{ppid}}, operation: 'file' },
+ 						data:{aid: {{aid}}, pid : {{pid}}, ppid: {{ppid}},eid: {{eid}}, operation: 'file' },
  						success: function(response)
  						{
  							document.getElementById('filename').value = response.trim();
@@ -154,7 +154,7 @@
  				$.ajax({
  					url: 'ajax/submission_save.py?pid='+{{pid}}+'&aid='+{{aid}}+'&l='+$("#language_save").val(), 
  					type: 'POST',
- 					data:{content: c, action: t, filename: f, jfile: jf, cinput: input, ppid: {{ppid}} },
+ 					data:{content: c, action: t, filename: f, jfile: jf, cinput: input, ppid: {{ppid}}, eid:{{eid}} },
  					success: function(response)
  					{
  						
