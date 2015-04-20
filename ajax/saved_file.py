@@ -13,19 +13,22 @@ if 'HTTP_COOKIE' in os.environ:
 form = cgi.FieldStorage()
 assignment_id = form.getvalue('aid')
 problem_id = form.getvalue('pid')
+exam_id = form.getvalue('eid')
 op = form.getvalue('operation')
 ppid = form.getvalue('ppid')
 filename = ''
 
-sql = "SELECT file_name,language FROM save_code WHERE student_id = '{0}' and assignment_id= {1} and problem_id= {2} and ppid = {3}".format(c['uid'].value, assignment_id, problem_id, ppid)
+sql = "SELECT file_name,language FROM save_code WHERE student_id = '{0}' and assignment_id= {1} and problem_id= {2} and ppid = {3} and exam_id='{4}'".format(c['uid'].value, assignment_id, problem_id, ppid,exam_id)
 cursor.execute(sql)
 if(cursor.rowcount > 0):
 	data = cursor.fetchall()
 	filename = data[0][0]
 if(filename != ''):
 	if (op == 'code'):	
-		if(assignment_id != -1 and problem_id != -1):
-			contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/" + assignment_id + "/" + str(filename)).read()	
+		if(exam_id!=-1):
+			contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/" +"e"+ exam_id  + "/" + str(filename)).read()	
+		elif(assignment_id != -1 and problem_id != -1):
+			contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/" +assignment_id + "/" + str(filename)).read()
 		else:
 			contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/p_problem/" + str(filename)).read()	
 		print contents

@@ -1,7 +1,7 @@
 <!DOCTYPE>
 <html>
 	<head>
-		<title>Assignment</title>
+		<title>Exam New/Edit</title>
 		<meta charset="utf-8"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="http://www.neoscript.in/css/bootstrap.min.css">
@@ -24,22 +24,13 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user fa-fw"></i>{{name}}<b class="caret"></b></a>
-                	  <ul class="dropdown-menu dropdown-user">
-                        
-                        <li class="divider"></li>
-                        <li><a href="../logout.py"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-   
-		    <!--  <ul class="dropdown-menu" style="width:30">
-                            <li>
-								<form action="logout.py" method="POST">
-								<button type='submit' class="btn btn-default" >Logout</button>
-								</form>
-                            </li> -->
+                	  	<ul class="dropdown-menu dropdown-user">
+                        	<li class="divider"></li>
+                        	<li><a href="../logout.py"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        	</li>
+                    	</ul>
                        </ul>
                     </li>
                 </ul>
@@ -52,15 +43,15 @@
 		<!-- Container-->
 		<div class="container">
 			<ol class="breadcrumb">
-				<li><a href="assignment.py?cid={{cid}}">Assignmets</a></li>
-				<li class="active">Assignment Details</li>
+				<li><a href="exam_main.py?cid={{cid}}">Exam</a></li>
+				<li class="active">Exam Details</li>
 			</ol>
 			<div id="alert"></div>
 			<!-- form-->
 			<form id="newForm">
 				<div class="form-group ">
-					<label for="title">Assignment Title</label>
-					<input type="text" class="form-control" name="title" id="title" placeholder="Assignment Title" value="{{ptitle}}" {{d}}/>
+					<label for="title">Exam Title</label>
+					<input type="text" class="form-control" name="title" id="title" placeholder="Exam Title" value="{{ptitle}}" {{d}}/>
 				</div>
 				<div class="form-group ">
 					<label for="start-date-time">Start Date-Time</label>
@@ -101,21 +92,15 @@
 		<script>
 			
 			function removeProblem(id)
-			{
-				//id = "#"+id;
-				//alert(id);
-				
+			{				
 				$.ajax({
 							type: "POST",
-							url: "ajax/remove_problem.py?aid={{aid}}&pid="+id+"",
+							url: "ajax/remove_problem.py?eid={{eid}}&aid=-1&pid="+id+"",
 							data: $("#newForm").serialize(), // serializes the form's elements.
 							success: function(response)
 							{
 								$("#"+id).html(response);
 								$("#"+id).attr('disabled','disabled');
-								//alert(response)
-								//$(".feedback_panel").hide(); 	
-								
 							},
 							error: function(response){
 								$("#"+id).html("Remove");
@@ -162,14 +147,14 @@
 					$("#alert").hide();
 					if($("#title").val() == "")
 					{
-						$("#alert").html("<div class='alert alert-danger' role='alert'>Put the title of assignment</div>");
+						$("#alert").html("<div class='alert alert-danger' role='alert'>Put the title of exam</div>");
 						$("#alert").show();
 						
 						return false;
 					}
 					if( $("#start-date-time").val() == "")
 					{
-						$("#alert").html("<div class='alert alert-danger' role='alert'>Fill start date of assignment</div>");
+						$("#alert").html("<div class='alert alert-danger' role='alert'>Fill start date of exam</div>");
 						$("#alert").show();
 						
 						return false;
@@ -179,7 +164,7 @@
 					
 					if( $("#end-date-time").val() == "")
 					{
-						$("#alert").html("<div class='alert alert-danger' role='alert'>Fill end date of assignment</div>");
+						$("#alert").html("<div class='alert alert-danger' role='alert'>Fill end date of exam</div>");
 						$("#alert").show();
 						
 						return false;
@@ -201,7 +186,7 @@
 					}
 					if($("#type").val() == "select")
 					{
-						$("#alert").html("<div class='alert alert-danger' role='alert'>Please select assignment type</div>");
+						$("#alert").html("<div class='alert alert-danger' role='alert'>Please select exam type</div>");
 						$("#alert").show();
 						return false;
 					}
@@ -210,7 +195,7 @@
 					
 						$.ajax({
 							type: "POST",
-							url: "ajax/save_assignment.py?cid={{cid}}&aid={{aid}}",
+							url: "ajax/save_exam.py?cid={{cid}}&eid={{eid}}",
 							data: $("#newForm").serialize(), // serializes the form's elements.
 							success: function(response)
 							{

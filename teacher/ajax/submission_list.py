@@ -6,13 +6,22 @@ import cgi, cgitb
 from connection import cursor
 
 data = cgi.FieldStorage()
-
+assignment_id = -1
+exam_id = -1
 problem_id = data.getvalue("pid")
 assignment_id = data.getvalue("aid")
+exam_id = data.getvalue("eid")
 #problem_id = 4
 #assignment_id = 4
 list = ""
-sql = "SELECT email_id, tc1,tc2,tc3,tc4,tc5,score, file_name FROM submission_code WHERE assignment_id = {0} and problem_id = {1}".format(int(assignment_id), int(problem_id))
+
+if(int(exam_id) > 0):
+
+	sql = "SELECT email_id, tc1,tc2,tc3,tc4,tc5,score, file_name FROM submission_code WHERE exam_id = {0} and problem_id = {1}".format(int(exam_id), int(problem_id))
+	
+else:
+	sql = "SELECT email_id, tc1,tc2,tc3,tc4,tc5,score, file_name FROM submission_code WHERE assignment_id = {0} and problem_id = {1}".format(int(assignment_id), int(problem_id))
+
 cursor.execute(sql)
 data = cursor.fetchall()
 for row in data:

@@ -1,0 +1,39 @@
+{% extends "/var/www/html/base_user.html" %}
+	{% block title %}{{title}} | NeoScript{%endblock%}
+	{% block head %}
+		{{ super() }}
+	{% endblock %}
+	
+	{% block content %}
+	
+	{{ super() }}
+	<div class='container'>
+		<div class="jumbotron">
+  			<h3>Hello {{name}}</h3>
+  			<p>Read the given instructions carefully !!</p>
+  			<ol>
+  				<li>Duration of Exam is 3 Hours</li>
+  				<li>No Extra Time will be Given</li>
+  				<li>Once the time is over you will automatically be logged out</li>
+  				<li>Do not go to Click Home button once the exam starts </li>
+  				<li>Do not close the Browser</li>
+  				<li>If found using any unwanted methods you will be disqualified</li>
+  			</ol>
+  			<p><a class="btn btn-primary btn-lg" href="problem_list.py?eid={{eid}}" role="button">I Agree</a></p>
+		</div>
+	</div>
+	<script>
+		var ajax_call = function() {
+ 	 		$.ajax({
+ 	 			url:'ajax/exam_session.py?eid={{eid}}',
+ 	 			success:function(response)
+ 	 			{
+ 	 				if(parseInt(response) != 1)
+ 	 					window.location.assign("timeout.html");
+ 	 			}
+ 	 		});
+		};
+		var interval = 1000 * 30 * 1; 
+		setInterval(ajax_call, interval);
+	</script>	
+	 {% endblock %}
