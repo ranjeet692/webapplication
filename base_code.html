@@ -169,7 +169,7 @@
  						data:{"eid": {{eid}}, "pid":{{pid}} },
  						success: function(data)
  						{
- 							if(parseInt(data)== 0){
+ 							if(parseInt(data)== 0 && action == "test_case"){
  								$("#testcase").html("<span style='color:#333;'><strong>Your program has been successfully submitted.</strong></span>");
  							}else{	
  								$("#testcase").html(response);
