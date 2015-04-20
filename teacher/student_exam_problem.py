@@ -53,7 +53,7 @@ if c['type'].value == "teacher" and (c['uid'].value == teacher_id or c['uid'].va
 	data = cursor.fetchall()
 	exam_name_map = {y:x for x, y in data}
 	
-	sql = "select a.exam_id, a.title, b.problem_id, b.title from exam as a, problem_code as b, exam_code as c where a.exam_id = c.exam_id and b.problem_id = c.problem_id"
+	sql = "select a.exam_id, a.title, b.problem_id, b.title from exam as a, problem_code as b, exam_code as c where a.exam_id = c.exam_id and b.problem_id = c.problem_id and a.course_id = {0}".format(course_id)
 	cursor.execute(sql)
 	data = cursor.fetchall()
 	

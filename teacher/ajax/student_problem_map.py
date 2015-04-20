@@ -22,6 +22,7 @@ sql = "SELECT a.rno, a.email_id from student as a, enrolled as b where a.email_i
 cursor.execute(sql)
 data = cursor.fetchall()
 regno_email_map = {x.upper():y for x,y in data}
+regno_email_map.update({x.lower():y for x,y in data})
 
 status = ""
 

@@ -163,10 +163,25 @@
  					data:{content: c, action: t, filename: f, jfile: jf, cinput: input, ppid: {{ppid}}, eid:{{eid}} },
  					success: function(response)
  					{
- 						
- 						$("#testcase").html(response);
- 						$("#loading").hide();
-						$("#testcase").show();
+ 						$.ajax({
+ 						url: 'ajax/testcase_submission.py', 
+ 						type: 'POST',
+ 						data:{"eid": {{eid}}, "pid":{{pid}} },
+ 						success: function(data)
+ 						{
+ 							if(parseInt(data)== 0){
+ 								$("#testcase").html("<span style='color:#333;'><strong>Your program has been successfully submitted.</strong></span>");
+ 							}else{	
+ 								$("#testcase").html(response);
+							}
+							$("#loading").hide();
+							$("#testcase").show();
+ 						},
+ 						error: function(data)
+ 						{
+ 							alert('error while loading code..');
+ 						}
+ 					});	
  					},
  					error: function(response)
  					{
