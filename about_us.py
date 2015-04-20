@@ -9,13 +9,6 @@ templateEnv = Environment( loader=templateLoader )
 
 user=""
 
-if 'HTTP_COOKIE' in os.environ:
-	cookie_string=os.environ.get('HTTP_COOKIE')
-	c=Cookie.SimpleCookie()
-	c.load(cookie_string)
-	user = c['name'].value
-	
-TEMPLATE_FILE = "/var/www/html/about_us.html"	
-templateVars = { "name": user}
+TEMPLATE_FILE = "/var/www/html/about_us.html"
 template = templateEnv.get_template( TEMPLATE_FILE )
-print template.render(templateVars)
+print template.render()
