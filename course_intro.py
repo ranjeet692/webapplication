@@ -26,7 +26,11 @@ if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
 	c=Cookie.SimpleCookie()
 	c.load(cookie_string)
-	user = c['name'].value
+	try:
+		user = c['name'].value
+	except KeyError:
+		user = "Guest"
+		
 templateLoader = FileSystemLoader( searchpath="/" )
 templateEnv = Environment( loader=templateLoader )
 TEMPLATE_FILE = "/var/www/html/course_intro.html"
