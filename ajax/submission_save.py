@@ -20,6 +20,7 @@ if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
 	c=Cookie.SimpleCookie()
 	c.load(cookie_string)
+	mp.track(c['name'].value, 'compilation Requests')
 #problem_id = '27'
 #assignment_id = '22'
 #student_id = 'ranjeetkumar692@gmail.com'

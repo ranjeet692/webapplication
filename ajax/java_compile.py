@@ -48,7 +48,7 @@ def check_code(pid,assignmnt_id,fn):
 			os.chmod(output_location+'/'+str(j)+'.txt',st.st_mode | stat.S_IWGRP | stat.S_IWOTH)
 			fdw.close()
 			setup='''import subprocess,os;fdr=open("'''+data[i]+'''","r");fdw=open("'''+ofname+'''","w")'''
-			stmt='''subprocess.call(['java',"'''+str(fn)+'''"],stdin=fdr,stdout=fdw)'''				
+			stmt='''subprocess.call(['timeout','5s','java',"'''+str(fn)+'''"],stdin=fdr,stdout=fdw)'''				
 			t.append(timeit.timeit(stmt,setup,number=1))						
 			tc=tc+1
 			j=j+1
