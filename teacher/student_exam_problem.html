@@ -4,7 +4,7 @@
 		{{ super() }}
 		<meta http-equiv="Cache-Control" Content="no-cache, no-store, must-revalidate ,max-age=0,s-maxage=0, proxy revalidate">
 		<meta http-equiv ="Pragma" Content="no-cache">
-		<meta http-equiv ="Expires" Content="0">	
+		<meta http-equiv ="Expires" Content="0">
 	{% endblock %}
 	{% block content %}
 		<!-- wrapper -->
@@ -25,7 +25,7 @@
             		<table class="table table-hover">
             		{% for row in eplist %}
             			<tr>
-  							<td><strong><span style="color:#333;">{{row[3]}}</span></strong></td><td><strong><span style="color:#333;">{{row[1]}}</span></strong></td><td><textarea rows="2" cols="30" id="{{row[2]}}"></textarea></td><td><button type="button" class="btn btn-info btn-block" id="b{{row[2]}}" onclick="saveProblemStudentMap({{row[2]}}, {{row[0]}})">Save</button>
+  							<td><strong><span style="color:#333;">{{row[3]}}</span></strong></td><td><strong><span style="color:#333;">{{row[1]}}</span></strong></td><td><textarea rows="2" cols="30" id="{{row[2]|string + row[0]|string}}"></textarea></td><td><button type="button" class="btn btn-info btn-block" id="b{{row[2]}}" onclick="saveProblemStudentMap({{row[2]}}, {{row[0]}})">Save</button>
   							</td>
   						</tr>
   					{% endfor %}
@@ -33,18 +33,18 @@
 				</div>
 				<!-- exam problem column-->
 			</div>
-			<!--end row-->	
+			<!--end row-->
          </div>
-		
+
 		<!-- end page wrapper-->
 		</div>
 		<!--end wrapper-->
 		 <!-- Bootstrap Core JavaScript -->
-		 
+
 	{{ super() }}
 	<script>
 		function saveProblemStudentMap(pid, eid){
-			var lines = $('#'+pid).val().split(/,/);
+			var lines = $('#'+pid.toString()+eid.toString()).val().split(/,/);
 			var texts = [];
 			for (var i=0; i < lines.length; i++) {
   				// only push this line if it contains a non whitespace character.
