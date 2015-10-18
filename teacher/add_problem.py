@@ -14,7 +14,12 @@ assignment_id = data.getvalue('aid')
 exam_id = data.getvalue('eid')
 course_id = data.getvalue('cid')
 option = data.getvalue('option')
+if exam_id is None:
+	exam_id = -1
 
+if assignment_id is None:
+	assignment_id = -1
+ 
 templateLoader = FileSystemLoader( searchpath="/" )
 templateEnv = Environment( loader=templateLoader )
 

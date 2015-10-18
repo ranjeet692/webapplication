@@ -25,9 +25,9 @@ if(cursor.rowcount > 0):
 	filename = data[0][0]
 if(filename != ''):
 	if (op == 'code'):	
-		if(exam_id!=-1):
+		if(int(exam_id) != -1):
 			contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/" +"e"+ exam_id  + "/" + str(filename)).read()	
-		elif(assignment_id != -1 and problem_id != -1):
+		elif(int(assignment_id) != -1 and int(problem_id) != -1):
 			contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/" +assignment_id + "/" + str(filename)).read()
 		else:
 			contents = open("/home/ubuntu/submission/"+ c['uid'].value + "/p_problem/" + str(filename)).read()	

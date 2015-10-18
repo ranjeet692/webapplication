@@ -9,14 +9,16 @@ import footer
 #cid = data.getvalue("cid")
 #cid = 1
 #title = "Java Programming"
+
 if 'HTTP_COOKIE' in os.environ:
 	cookie_string=os.environ.get('HTTP_COOKIE')
 	c=Cookie.SimpleCookie()
 	c.load(cookie_string)
 
+
 #u="vipul2519@gmail.com"
 #sql = "select distinct(title),score from practise_submission as s,problem_code as p where s.ppid=p.problem_id and email_id = '{0}'".format(str(c['uid'].value))
-sql="select score,time from submission_code where email_id='vipul2519@gmail.com' union select score,time_stamp as time from practise_submission where email_id='vipul2519@gmail.com' order by time"
+sql="select score,time from submission_code where email_id='{0}' union select score,time_stamp as time from practise_submission where email_id='{1}' order by time".format(c['uid'].value, c['uid'].value)
 cursor.execute(sql)
 data = cursor.fetchall()
 i=0
