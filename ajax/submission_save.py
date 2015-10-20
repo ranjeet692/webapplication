@@ -208,6 +208,10 @@ class CodeHandler:
 				if aid != '-1' and pid != '-1':	
 					c_compile.check_code(pid,aid,filename)
 					save_result="update submission_code set tc1='{0}',tc2='{1}',tc3='{2}',tc4='{3}',tc5='{4}' where assignment_id='{5}' and problem_id='{6}' and email_id='{7}'".format(str(c_compile.re[0]),str(c_compile.re[1]),str(c_compile.re[2]),str(c_compile.re[3]),str(c_compile.re[4]),str(aid),str(pid),str(sid))
+				elif exam_id != '-1' and pid != '-1':
+					c_compile.check_code(pid, ("e"+exam_id), filename)
+					save_result="update submission_code set tc1='{0}',tc2='{1}',tc3='{2}',tc4='{3}',tc5='{4}' where exam_id='{5}' and problem_id='{6}' and email_id='{7}'".format(str(c_compile.re[0]),str(c_compile.re[1]),str(c_compile.re[2]),str(c_compile.re[3]),str(c_compile.re[4]),str(aid),str(pid),str(sid))
+
 				else:
 					c_compile.p_check_code(ppid, filename)
 					save_result="update practise_submission set tc1='{0}',tc2='{1}',tc3='{2}',tc4='{3}',tc5='{4}' where ppid='{5}' and email_id='{6}'".format(str(c_compile.re[0]),str(c_compile.re[1]),str(c_compile.re[2]),str(c_compile.re[3]),str(c_compile.re[4]),str(ppid),str(student_id))	
